@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   workflow_dispatch:
 
+env:
+  HOST: ${{ vars.HOST }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
