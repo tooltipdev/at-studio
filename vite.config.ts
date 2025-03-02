@@ -20,7 +20,7 @@ export default defineConfig({
   },
   server: {
     allowedHosts: true,
-    port: parseInt(PORT),
+    port: PORT ? parseInt(PORT): 3001,
     proxy: {
       // Serve dynamic OAuth client metadata from local dev environment
       '/client-metadata.json': {
