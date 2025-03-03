@@ -59,7 +59,8 @@ function ObjectFormField({
     (rawSchema as WrappedZodOptional<WrappedZodObject>)._def?.innerType ||
     (rawSchema as WrappedZodObject);
 
-  const objectSchemaShape = typeof objectSchema.shape === 'function' ? objectSchema.shape() : objectSchema.shape;
+  const objectSchemaShape =
+    typeof objectSchema.shape === 'function' ? objectSchema.shape() : objectSchema.shape;
   const objectIsOptional: boolean =
     typeof rawSchema.isOptional === 'function'
       ? rawSchema.isOptional()
