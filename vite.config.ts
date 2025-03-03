@@ -8,7 +8,6 @@ import { IncomingMessage, ServerResponse } from 'http';
 const { HOST, PORT } = process.env;
 
 assert(HOST, 'HOST is not defined');
-assert(PORT, 'PORT is not defined');
 
 export default defineConfig({
   base: '/',
