@@ -170,8 +170,8 @@ const additionalZodSchemaMap = {
   bskyAppSetActiveProgressGuide: z.object({
     guide: z.string().optional(),
   }),
-  bskyAppUpsertNux: argsToArgSchema([NuxSchema]),
-  bskyAppRemoveNuxs: metaMixin(z.array(metaMixin(z.string())), { label: 'ids' }),
+  bskyAppUpsertNux: metaMixin(NuxSchema),
+  bskyAppRemoveNuxs:argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'ids' })]),
 };
 
 /**
