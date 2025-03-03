@@ -10,7 +10,7 @@ const { HOST, PORT } = process.env;
 assert(HOST, 'HOST is not defined');
 
 export default defineConfig({
-  base: '/',
+  base: '/oauth-playground/',
   plugins: [react()],
   resolve: {
     alias: {
