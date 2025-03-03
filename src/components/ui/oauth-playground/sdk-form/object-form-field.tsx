@@ -71,7 +71,8 @@ function ObjectFormField({
 
   const objectSchemaMetadata = objectSchema.meta ? objectSchema.meta() : {};
   const uiDepth = objectSchemaMetadata.noDepth === true ? 0 : depth;
-  const objectLabel = objectSchemaMetadata.label || options.virtualPath || path;
+  const objectVirtualPath = objectSchemaMetadata.virtualPath || options.virtualPath;
+  const objectLabel = objectSchemaMetadata.label || objectVirtualPath || path;
 
   return (
     <FormItem>
@@ -113,9 +114,7 @@ function ObjectFormField({
 
             const fieldPath = `${path ? `${path}.` : ''}${fieldName}` as string;
             const childDepth = objectSchemaMetadata.noDepth ? 0 : depth + 1;
-            const fieldVirtualPath = options.virtualPath
-              ? `${options.virtualPath}.${fieldName}`
-              : null;
+            const fieldVirtualPath = objectVirtualPath ? `${objectVirtualPath}.${fieldName}` : null;
 
             return (
               <>
@@ -149,16 +148,45 @@ function ObjectFormField({
                           form={form}
                           path={fieldPath}
                           depth={childDepth}
+                          options={fieldVirtualPath ? { virtualPath: fieldVirtualPath } : {}}
                         />
                       );
                     case 'ZodBoolean':
-                      return <BooleanFormField schema={fieldSchema} form={form} path={fieldPath} />;
+                      return (
+                        <BooleanFormField
+                          schema={fieldSchema}
+                          form={form}
+                          path={fieldPath}
+                          options={fieldVirtualPath ? { virtualPath: fieldVirtualPath } : {}}
+                        />
+                      );
                     case 'file':
-                      return <FileFormField schema={fieldSchema} form={form} path={fieldPath} />;
+                      return (
+                        <FileFormField
+                          schema={fieldSchema}
+                          form={form}
+                          path={fieldPath}
+                          options={fieldVirtualPath ? { virtualPath: fieldVirtualPath } : {}}
+                        />
+                      );
                     case 'date':
-                      return <DateFormField schema={fieldSchema} form={form} path={fieldPath} />;
+                      return (
+                        <DateFormField
+                          schema={fieldSchema}
+                          form={form}
+                          path={fieldPath}
+                          options={fieldVirtualPath ? { virtualPath: fieldVirtualPath } : {}}
+                        />
+                      );
                     default:
-                      return <InputFormField form={form} schema={fieldSchema} path={fieldPath} />;
+                      return (
+                        <InputFormField
+                          form={form}
+                          schema={fieldSchema}
+                          path={fieldPath}
+                          options={fieldVirtualPath ? { virtualPath: fieldVirtualPath } : {}}
+                        />
+                      );
                   }
                 })()}
               </>
