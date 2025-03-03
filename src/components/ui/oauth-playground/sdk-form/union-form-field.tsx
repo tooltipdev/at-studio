@@ -12,11 +12,15 @@ function UnionFormField({
   schema,
   path,
   depth = 0,
+  options = {},
 }: {
   form: UseFormReturn;
   schema: ZodUnion<any> | ZodOptional<ZodUnion<any>>;
   path: string;
   depth?: number;
+  options?: {
+    virtualPath?: string;
+  };
 }) {
   const unionOptions: Array<{ [key: string]: any }> =
     (schema as any).options ||
@@ -47,10 +51,10 @@ function UnionFormField({
       <FormDescription>{schema.description}</FormDescription>
       <Tabs
         // onValueChange={(value) => {
-          // console.log(form.getValues().embed)
-          // form.getValues()?.embed && Object.keys(form.getValues().embed).forEach((key) => {
-          //   form.setValue(`${path}.${key}`, undefined)
-          // })
+        // console.log(form.getValues().embed)
+        // form.getValues()?.embed && Object.keys(form.getValues().embed).forEach((key) => {
+        //   form.setValue(`${path}.${key}`, undefined)
+        // })
         // }}
         className={``}
       >
@@ -60,7 +64,7 @@ function UnionFormField({
 
             return (
               <TabsTrigger onClick={() => {}} value={`${i}`}>
-                {optionsSchema.meta && optionsSchema.meta().key || `Variant ${i + 1}`}
+                {(optionsSchema.meta && optionsSchema.meta().key) || `Variant ${i + 1}`}
               </TabsTrigger>
             );
           })}
@@ -85,6 +89,7 @@ function UnionFormField({
                         form={form}
                         path={path}
                         depth={depth}
+                        options={options.virtualPath ? { virtualPath: options.virtualPath } : {}}
                       />
                     );
                   case 'ZodArray':
@@ -94,6 +99,7 @@ function UnionFormField({
                         form={form}
                         path={path}
                         depth={depth}
+                        options={options.virtualPath ? { virtualPath: options.virtualPath } : {}}
                       />
                     );
                   case 'ZodUnion':
@@ -103,10 +109,18 @@ function UnionFormField({
                         form={form}
                         path={path}
                         depth={depth}
+                        options={options.virtualPath ? { virtualPath: options.virtualPath } : {}}
                       />
                     );
                   default:
-                    return <InputFormField form={form} schema={optionSchema} path={path} />;
+                    return (
+                      <InputFormField
+                        form={form}
+                        schema={optionSchema}
+                        path={path}
+                        options={options.virtualPath ? { virtualPath: options.virtualPath } : {}}
+                      />
+                    );
                 }
               })()}
             </TabsContent>
