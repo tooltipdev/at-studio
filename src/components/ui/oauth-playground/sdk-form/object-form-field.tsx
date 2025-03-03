@@ -44,11 +44,15 @@ function ObjectFormField({
   schema: rawSchema,
   path,
   depth = 0,
+  options = {},
 }: {
   form: UseFormReturn;
   schema: WrappedZodObject | WrappedZodOptional<WrappedZodObject>;
   path: string;
   depth?: number;
+  options?: {
+    virtualPath?: string;
+  };
 }) {
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
   const schema =
@@ -65,12 +69,7 @@ function ObjectFormField({
   const isFieldEnabled = isEnabled || !!!depth;
   const isFieldOptional = isOptional && !!depth;
   const uiDepth = schemaMetadata.noDepth === true ? 0 : depth;
-
-  let label = path;
-
-  if (schemaMetadata.label) {
-    label = schemaMetadata.label;
-  }
+  const label = schemaMetadata.label || options.virtualPath || path;
 
   return (
     <FormItem>
@@ -98,7 +97,7 @@ function ObjectFormField({
             htmlFor="terms"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            Enable <span className="font-mono">{path}</span>
+            Enable <span className="font-mono">{label}</span>
           </label>
         </div>
       )}
@@ -112,6 +111,9 @@ function ObjectFormField({
 
             const fieldPath = `${path ? `${path}.` : ''}${fieldName}` as string;
             const childDepth = schemaMetadata.noDepth ? 0 : depth + 1;
+            const fieldVirtualPath = options.virtualPath
+              ? `${options.virtualPath}.${fieldName}`
+              : null;
 
             return (
               <>
@@ -125,6 +127,7 @@ function ObjectFormField({
                           form={form}
                           path={fieldPath}
                           depth={childDepth}
+                          options={fieldVirtualPath ? { virtualPath: fieldVirtualPath } : {}}
                         />
                       );
                     case 'ZodArray':
@@ -134,6 +137,7 @@ function ObjectFormField({
                           form={form}
                           path={fieldPath}
                           depth={childDepth}
+                          options={fieldVirtualPath ? { virtualPath: fieldVirtualPath } : {}}
                         />
                       );
                     case 'ZodUnion':
@@ -152,13 +156,7 @@ function ObjectFormField({
                     case 'date':
                       return <DateFormField schema={fieldSchema} form={form} path={fieldPath} />;
                     default:
-                      return (
-                        <InputFormField
-                          form={form}
-                          schema={fieldSchema}
-                          path={fieldPath}
-                        />
-                      );
+                      return <InputFormField form={form} schema={fieldSchema} path={fieldPath} />;
                   }
                 })()}
               </>
