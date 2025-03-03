@@ -171,7 +171,7 @@ const additionalZodSchemaMap = {
     guide: z.string().optional(),
   }),
   bskyAppUpsertNux: metaMixin(NuxSchema),
-  bskyAppRemoveNuxs: metaMixin(z.array(metaMixin(z.string())), { label: 'ids' }),
+  bskyAppRemoveNuxs:argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'ids' })]),
 };
 
 /**
