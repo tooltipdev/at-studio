@@ -75,6 +75,7 @@ function ArrayFormField({
                     schema={itemSchema}
                     form={form}
                     path={nestedPath}
+                    options={nestedVirtualPath ? { virtualPath: nestedVirtualPath } : {}}
                   />
                 );
                 break;
