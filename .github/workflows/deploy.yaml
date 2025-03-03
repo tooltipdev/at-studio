@@ -3,13 +3,10 @@ name: Deploy to GitHub Pages
 on:
   workflow_dispatch:
 
-env:
-  HOST: ${{ vars.HOST }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    environment: github-pages
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
