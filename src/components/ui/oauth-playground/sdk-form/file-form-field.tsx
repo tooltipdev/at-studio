@@ -15,10 +15,14 @@ function FileFormField({
   schema,
   form,
   path,
+  options = {},
 }: {
   schema: { [key: string]: any };
   form: UseFormReturn;
   path: string;
+  options?: {
+    virtualPath?: string;
+  };
 }) {
   let defaultValue =
     schema._def?.defaultValue || schema._def?.innerType?._def?.defaultValue || schema.defaultValue;
@@ -38,7 +42,7 @@ function FileFormField({
         return (
           <FormItem>
             <FormLabel>
-              {schemaMetadata.label || path}
+              {schemaMetadata.label || options.virtualPath || path}
               {isOptional && (
                 <>
                   &nbsp;&nbsp;
