@@ -71,8 +71,8 @@ function argsToArgSchema(
   objMeta: { [key: string]: any } = {}
 ) {
   const argMap = argSet.reduce(
-    (acc, wrappedZodSchema, i) => {
-      acc[`$${i}`] = wrappedZodSchema;
+    (acc, schema, i) => {
+      acc[`$${i}`] = schema;
 
       return acc;
     },
@@ -170,8 +170,8 @@ const additionalZodSchemaMap = {
   bskyAppSetActiveProgressGuide: z.object({
     guide: z.string().optional(),
   }),
-  bskyAppUpsertNux: argsToArgSchema([NuxSchema]),
-  bskyAppRemoveNuxs: metaMixin(z.array(metaMixin(z.string())), { label: 'ids' }),
+  bskyAppUpsertNux: metaMixin(NuxSchema),
+  bskyAppRemoveNuxs: argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'ids' })]),
 };
 
 /**
