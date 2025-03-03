@@ -14,11 +14,15 @@ function ArrayFormField({
   form,
   path,
   depth = 0,
+  options = {},
 }: {
   schema: { [key: string]: any };
   form: UseFormReturn;
   path: string;
   depth?: number;
+  options?: {
+    virtualPath?: string;
+  };
 }) {
   const [index, setIndex] = useState(-1);
 
@@ -31,8 +35,8 @@ function ArrayFormField({
   const itemSchema = schema._def?.innerType?._def.type || schema._def?.type || schema.type;
   const nestedSchema = deeper(itemSchema);
   const nestedType = nestedSchema._def.typeName;
-  const nestedSchemaMeta = schema.meta ? schema.meta() : {}
-  const nestedLabel = nestedSchemaMeta.label || path;
+  const nestedSchemaMeta = schema.meta ? schema.meta() : {};
+  const nestedLabel = nestedSchemaMeta.label || options.virtualPath || path;
 
   let isOptional = schema.isOptional;
 
@@ -61,6 +65,7 @@ function ArrayFormField({
             let field;
 
             const nestedPath = `${path}.${i}`;
+            const nestedVirtualPath = options.virtualPath ? `${options.virtualPath}.${i}` : null;
 
             switch (nestedType) {
               case 'ZodObject':
@@ -80,6 +85,7 @@ function ArrayFormField({
                     schema={nestedSchema}
                     form={form}
                     path={nestedPath}
+                    options={nestedVirtualPath ? { virtualPath: nestedVirtualPath } : {}}
                   />
                 );
                 break;
