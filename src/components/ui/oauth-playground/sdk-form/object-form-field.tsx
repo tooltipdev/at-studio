@@ -55,28 +55,29 @@ function ObjectFormField({
   };
 }) {
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
-  const schema =
+  const objectSchema =
     (rawSchema as WrappedZodOptional<WrappedZodObject>)._def?.innerType ||
     (rawSchema as WrappedZodObject);
 
-  const schemaShape = typeof schema.shape === 'function' ? schema.shape() : schema.shape;
-  const schemaMetadata = schema.meta ? schema.meta() : {};
-  const isOptional: boolean =
+  const objectSchemaShape = typeof objectSchema.shape === 'function' ? objectSchema.shape() : objectSchema.shape;
+  const objectIsOptional: boolean =
     typeof rawSchema.isOptional === 'function'
       ? rawSchema.isOptional()
       : (rawSchema.isOptional as unknown as boolean);
 
-  const isFieldEnabled = isEnabled || !!!depth;
-  const isFieldOptional = isOptional && !!depth;
-  const uiDepth = schemaMetadata.noDepth === true ? 0 : depth;
-  const label = schemaMetadata.label || options.virtualPath || path;
+  const isObjectEnabled = isEnabled || !!!depth;
+  const isObjectOptional = objectIsOptional && !!depth;
+
+  const objectSchemaMetadata = objectSchema.meta ? objectSchema.meta() : {};
+  const uiDepth = objectSchemaMetadata.noDepth === true ? 0 : depth;
+  const objectLabel = objectSchemaMetadata.label || options.virtualPath || path;
 
   return (
     <FormItem>
-      {schemaMetadata.noLabel !== true && (
+      {objectSchemaMetadata.noLabel !== true && (
         <FormLabel>
-          {label}
-          {isOptional && (
+          {objectLabel}
+          {objectIsOptional && (
             <>
               &nbsp;&nbsp;
               <Badge className="opacity-80" variant="secondary">
@@ -86,31 +87,31 @@ function ObjectFormField({
           )}
         </FormLabel>
       )}
-      {schemaMetadata.noDescription !== true && schema.description && (
-        <FormDescription>{schema.description}</FormDescription>
+      {objectSchemaMetadata.noDescription !== true && objectSchema.description && (
+        <FormDescription>{objectSchema.description}</FormDescription>
       )}
 
-      {isFieldOptional && !isFieldEnabled && (
+      {isObjectOptional && !isObjectEnabled && (
         <div className="flex items-center space-x-2 pt-2">
           <Checkbox onClick={() => setIsEnabled(!isEnabled)} />
           <label
             htmlFor="terms"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            Enable <span className="font-mono">{label}</span>
+            Enable <span className="font-mono">{objectLabel}</span>
           </label>
         </div>
       )}
 
-      {(!isOptional || !!!depth || isEnabled) && (
+      {(!objectIsOptional || !!!depth || isEnabled) && (
         <div className={`p-${2 * uiDepth} ${uiDepth % 2 ? 'bg-slate-50' : 'bg-white'}`}>
-          {Object.keys(schemaShape).map((fieldName, fieldIdx) => {
-            let fieldSchema = getFieldSchema(schemaShape[fieldName]);
+          {Object.keys(objectSchemaShape).map((fieldName, fieldIdx) => {
+            let fieldSchema = getFieldSchema(objectSchemaShape[fieldName]);
             let fieldType =
               (fieldSchema.meta && fieldSchema.meta().fieldType) || getFieldType(fieldSchema);
 
             const fieldPath = `${path ? `${path}.` : ''}${fieldName}` as string;
-            const childDepth = schemaMetadata.noDepth ? 0 : depth + 1;
+            const childDepth = objectSchemaMetadata.noDepth ? 0 : depth + 1;
             const fieldVirtualPath = options.virtualPath
               ? `${options.virtualPath}.${fieldName}`
               : null;
