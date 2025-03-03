@@ -97,6 +97,7 @@ function ArrayFormField({
                     form={form}
                     path={nestedPath}
                     depth={depth + 1}
+                    options={nestedVirtualPath ? { virtualPath: nestedVirtualPath } : {}}
                   />
                 );
               case 'ZodOptional':
