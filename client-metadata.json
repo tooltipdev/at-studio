@@ -1,0 +1,20 @@
+{
+  "client_name": "bsky Labs: OAuth2 Playground",
+  "client_id": "https://bsky-labs.github.io/oauth-playground/client-metadata.json",
+  "client_uri": "https://bsky-labs.github.io/oauth-playground/",
+  "logo_uri": "https://avatars.githubusercontent.com/u/192393975",
+  "redirect_uris": [
+    "https://bsky-labs.github.io/oauth-playground/"
+  ],
+  "scope": "atproto transition:generic",
+  "grant_types": [
+    "authorization_code",
+    "refresh_token"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "token_endpoint_auth_method": "none",
+  "application_type": "web",
+  "dpop_bound_access_tokens": true
+}
