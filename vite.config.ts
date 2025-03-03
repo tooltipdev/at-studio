@@ -10,7 +10,7 @@ const { HOST, PORT } = process.env;
 assert(HOST, 'HOST is not defined');
 
 export default defineConfig({
-  base: '/oauth-playground/',
+  base: '/bsky-oauth-playground/',
   plugins: [react()],
   resolve: {
     alias: {
@@ -22,7 +22,7 @@ export default defineConfig({
     port: PORT ? parseInt(PORT): 3001,
     proxy: {
       // Serve dynamic OAuth client metadata from local dev environment
-      '/client-metadata.json': {
+      '/bsky-oauth-playground/client-metadata.json': {
         target: '', // mock target shouldn't be hit
         bypass: (_req: IncomingMessage, res: ServerResponse) => {
           res?.writeHead(200, { 'Content-Type': 'application/json' });
