@@ -32,20 +32,20 @@ function ArrayFormField({
     return schema;
   }
 
-  const itemSchema = schema._def?.innerType?._def.type || schema._def?.type || schema.type;
-  const nestedSchema = deeper(itemSchema);
-  const nestedType = nestedSchema._def.typeName;
-  const nestedSchemaMeta = schema.meta ? schema.meta() : {};
-  const nestedLabel = nestedSchemaMeta.label || options.virtualPath || path;
+  const arrayMetadata = schema.meta ? schema.meta() : {};
+  const arrayLabel = arrayMetadata.label || options.virtualPath || path;
 
   let isOptional = schema.isOptional;
 
   if (typeof isOptional === 'function') isOptional = isOptional();
 
+  const itemSchema = deeper(schema._def?.innerType?._def.type || schema._def?.type || schema.type);
+  const itemType = itemSchema._def.typeName;
+
   return (
     <FormItem>
       <FormLabel>
-        {nestedLabel}
+        {arrayLabel}
         {isOptional && (
           <>
             &nbsp;&nbsp;
@@ -57,7 +57,7 @@ function ArrayFormField({
       </FormLabel>
       <FormDescription>{schema.description}</FormDescription>
       <div className={`p-${2 * depth} ${depth % 2 ? 'bg-slate-50' : 'bg-white'}`}>
-        {index === -1 ? <p className="font-mono">No {nestedLabel} provided</p> : <></>}
+        {index === -1 ? <p className="font-mono">No {arrayLabel} provided</p> : <></>}
         {(() => {
           const items = [];
 
@@ -67,12 +67,12 @@ function ArrayFormField({
             const nestedPath = `${path}.${i}`;
             const nestedVirtualPath = options.virtualPath ? `${options.virtualPath}.${i}` : null;
 
-            switch (nestedType) {
+            switch (itemType) {
               case 'ZodObject':
                 field = (
                   <ObjectFormField
                     depth={depth}
-                    schema={nestedSchema}
+                    schema={itemSchema}
                     form={form}
                     path={nestedPath}
                   />
@@ -82,7 +82,7 @@ function ArrayFormField({
                 field = (
                   <ArrayFormField
                     depth={depth}
-                    schema={nestedSchema}
+                    schema={itemSchema}
                     form={form}
                     path={nestedPath}
                     options={nestedVirtualPath ? { virtualPath: nestedVirtualPath } : {}}
@@ -92,7 +92,7 @@ function ArrayFormField({
               case 'ZodUnion':
                 return (
                   <UnionFormField
-                    schema={nestedSchema}
+                    schema={itemSchema}
                     form={form}
                     path={nestedPath}
                     depth={depth + 1}
@@ -103,11 +103,11 @@ function ArrayFormField({
               default:
                 field = (
                   <InputFormField
-                    schema={nestedSchema}
+                    schema={itemSchema}
                     form={form}
                     path={nestedPath}
                     options={{
-                      label: `${nestedLabel}.${i}`,
+                      label: nestedVirtualPath || `${arrayLabel}.${i}`,
                     }}
                   />
                 );
@@ -132,7 +132,7 @@ function ArrayFormField({
         }}
       >
         <Plus />
-        Add more `{nestedLabel}`
+        Add more `{arrayLabel}`
       </Button>
     </FormItem>
   );
