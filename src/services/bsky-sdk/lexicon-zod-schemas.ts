@@ -81,9 +81,9 @@ function argsToArgSchema(
 
   return metaMixin(
     z.object({
-      __args__: metaMixin(z.object(argMap), { noLabel: true, noDepth: true }),
+      __args__: metaMixin(z.object(argMap), { noLabel: true }),
     }),
-    objMeta
+    {noDepth: true, ...objMeta}
   );
 }
 
@@ -117,12 +117,12 @@ const additionalZodSchemaMap = {
     metaMixin(z.string().optional(), { hidden: true, noDescription: true, noLabel: true }),
   ]),
   overwriteSavedFeeds: argsToArgSchema([
-    metaMixin(z.array(SavedFeedSchema), { label: 'savedFeeds' }),
+    metaMixin(z.array(SavedFeedSchema), { virtualPath: 'savedFeeds' }),
   ]),
-  updateSavedFeeds: argsToArgSchema([metaMixin(z.array(SavedFeedSchema), { label: 'savedFeeds' })]),
+  updateSavedFeeds: argsToArgSchema([metaMixin(z.array(SavedFeedSchema), { virtualPath: 'savedFeeds' })]),
   addSavedFeed: metaMixin(UnwrappedSavedFeedSchema, { noLabel: true }),
   removeSavedFeeds: argsToArgSchema([
-    metaMixin(z.array(metaMixin(z.string())), { label: 'savedFeeds' }),
+    metaMixin(z.array(metaMixin(z.string())), { virtualPath: 'savedFeeds' }),
   ]),
   setAdultContentEnabled: argsToArgSchema([
     metaMixin(z.coerce.boolean(), { label: 'adult content enabled' }),
@@ -141,12 +141,14 @@ const additionalZodSchemaMap = {
     metaMixin(z.string(), { label: 'feed' }),
     metaMixin(
       z.object({
-        hideReplies: metaMixin(z.boolean(), { label: 'hideReplies' }),
-        hideRepliesByUnfollowed: metaMixin(z.boolean(), { label: 'hideRepliesByUnfollowed' }),
-        hideRepliesByLikeCount: metaMixin(z.coerce.number(), { label: 'hideRepliesByLikeCount' }),
-        hideReposts: metaMixin(z.boolean(), { label: 'hideReposts' }),
-        hideQuotePosts: metaMixin(z.boolean(), { label: 'hideQuotePosts' }),
-      })
+        hideReplies: metaMixin(z.boolean(), { label: '' }),
+        hideRepliesByUnfollowed: metaMixin(z.boolean(), { label: '' }),
+        hideRepliesByLikeCount: metaMixin(z.coerce.number(), { label: '' }),
+        hideReposts: metaMixin(z.boolean(), { label: '' }),
+        hideQuotePosts: metaMixin(z.boolean(), { label: '' }),
+      }), {
+        virtualPath: 'preferences'
+      }
     ),
   ]),
   setThreadViewPrefs: metaMixin(
@@ -161,17 +163,17 @@ const additionalZodSchemaMap = {
     })
   ),
   addMutedWord: metaMixin(MutedWordSchema, { noLabel: true, noDepth: true }),
-  addMutedWords: argsToArgSchema([z.array(MutedWordSchema)]),
-  updateMutedWord: metaMixin(MutedWordSchema, { noLabel: true, noDepth: true }),
-  removeMutedWord: metaMixin(MutedWordSchema, { noLabel: true, noDepth: true }),
-  removeMutedWords: argsToArgSchema([z.array(MutedWordSchema)]),
-  bskyAppQueueNudges: argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'nudges' })]),
-  bskyAppDismissNudges: argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'nudges' })]),
+  addMutedWords: argsToArgSchema([metaMixin(z.array(MutedWordSchema), {virtualPath: 'mutedWords'})]),
+  updateMutedWord: metaMixin(MutedWordSchema),
+  removeMutedWord: metaMixin(MutedWordSchema),
+  removeMutedWords: argsToArgSchema([metaMixin(z.array(MutedWordSchema), {virtualPath: 'mutedWords'})]),
+  bskyAppQueueNudges: argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { virtualPath: 'nudges' })]),
+  bskyAppDismissNudges: argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { virtualPath: 'nudges' })]),
   bskyAppSetActiveProgressGuide: z.object({
     guide: z.string().optional(),
   }),
   bskyAppUpsertNux: metaMixin(NuxSchema),
-  bskyAppRemoveNuxs:argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'ids' })]),
+  bskyAppRemoveNuxs:argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { virtualPath: 'ids' })]),
 };
 
 /**
