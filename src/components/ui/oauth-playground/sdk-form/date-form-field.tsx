@@ -15,10 +15,15 @@ function DateFormField({
   schema,
   form,
   path,
+  options = {},
 }: {
   schema: { [key: string]: any };
   form: UseFormReturn;
   path: string;
+  options?: {
+    label?: string;
+    virtualPath?: string;
+  };
 }) {
   let defaultValue =
     schema._def?.defaultValue || schema._def?.innerType?._def?.defaultValue || schema.defaultValue;
@@ -28,6 +33,8 @@ function DateFormField({
   if (typeof isOptional === 'function') isOptional = isOptional();
 
   const schemaMetadata = schema.meta ? schema.meta() : {};
+  const virtualPath = schemaMetadata.virtualPath || options.virtualPath;
+  const label = schemaMetadata.label || options.label || virtualPath || path;
 
   return (
     <FormField
@@ -38,7 +45,7 @@ function DateFormField({
         return (
           <FormItem>
             <FormLabel>
-              {schemaMetadata.label || path}
+              {label}
               {isOptional && (
                 <>
                   &nbsp;&nbsp;
