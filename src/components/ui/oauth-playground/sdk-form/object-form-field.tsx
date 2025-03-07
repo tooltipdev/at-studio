@@ -126,6 +126,7 @@ function ObjectFormField({
                           form={form}
                           path={fieldPath}
                           depth={childDepth}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
                         />
                       );
                     case 'ZodArray':
@@ -135,6 +136,7 @@ function ObjectFormField({
                           form={form}
                           path={fieldPath}
                           depth={childDepth}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
                         />
                       );
                     case 'ZodUnion':
@@ -144,16 +146,45 @@ function ObjectFormField({
                           form={form}
                           path={fieldPath}
                           depth={childDepth}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
                         />
                       );
                     case 'ZodBoolean':
-                      return <BooleanFormField schema={fieldSchema} form={form} path={fieldPath} />;
+                      return (
+                        <BooleanFormField
+                          schema={fieldSchema}
+                          form={form}
+                          path={fieldPath}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
+                        />
+                      );
                     case 'file':
-                      return <FileFormField schema={fieldSchema} form={form} path={fieldPath} />;
+                      return (
+                        <FileFormField
+                          schema={fieldSchema}
+                          form={form}
+                          path={fieldPath}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
+                        />
+                      );
                     case 'date':
-                      return <DateFormField schema={fieldSchema} form={form} path={fieldPath} />;
+                      return (
+                        <DateFormField
+                          schema={fieldSchema}
+                          form={form}
+                          path={fieldPath}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
+                        />
+                      );
                     default:
-                      return <InputFormField form={form} schema={fieldSchema} path={fieldPath} />;
+                      return (
+                        <InputFormField
+                          form={form}
+                          schema={fieldSchema}
+                          path={fieldPath}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
+                        />
+                      );
                   }
                 })()}
               </>
