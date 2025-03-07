@@ -165,8 +165,8 @@ const additionalZodSchemaMap = {
   updateMutedWord: argsToArgSchema([metaMixin(MutedWordSchema, { noLabel: true, noDepth: true })]),
   removeMutedWord: argsToArgSchema([metaMixin(MutedWordSchema, { noLabel: true, noDepth: true })]),
   removeMutedWords: argsToArgSchema([z.array(MutedWordSchema)]),
-  bskyAppQueueNudges: metaMixin(z.array(metaMixin(z.string())), { label: 'nudges' }),
-  bskyAppDismissNudges: metaMixin(z.array(metaMixin(z.string())), { label: 'nudges' }),
+  bskyAppQueueNudges: argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'nudges' })]),
+  bskyAppDismissNudges: argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'nudges' })]),
   bskyAppSetActiveProgressGuide: z.object({
     guide: z.string().optional(),
   }),
