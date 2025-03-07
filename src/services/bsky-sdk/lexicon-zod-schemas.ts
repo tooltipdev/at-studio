@@ -120,7 +120,7 @@ const additionalZodSchemaMap = {
     metaMixin(z.array(SavedFeedSchema), { label: 'savedFeeds' }),
   ]),
   updateSavedFeeds: argsToArgSchema([metaMixin(z.array(SavedFeedSchema), { label: 'savedFeeds' })]),
-  addSavedFeed: argsToArgSchema([metaMixin(UnwrappedSavedFeedSchema, { noLabel: true })]),
+  addSavedFeed: metaMixin(UnwrappedSavedFeedSchema, { noLabel: true }),
   removeSavedFeeds: argsToArgSchema([
     metaMixin(z.array(metaMixin(z.string())), { label: 'savedFeeds' }),
   ]),
@@ -160,10 +160,10 @@ const additionalZodSchemaMap = {
       tags: metaMixin(z.string(), { label: 'tags' }),
     })
   ),
-  addMutedWord: argsToArgSchema([metaMixin(MutedWordSchema, { noLabel: true, noDepth: true })]),
+  addMutedWord: metaMixin(MutedWordSchema, { noLabel: true, noDepth: true }),
   addMutedWords: argsToArgSchema([z.array(MutedWordSchema)]),
-  updateMutedWord: argsToArgSchema([metaMixin(MutedWordSchema, { noLabel: true, noDepth: true })]),
-  removeMutedWord: argsToArgSchema([metaMixin(MutedWordSchema, { noLabel: true, noDepth: true })]),
+  updateMutedWord: metaMixin(MutedWordSchema, { noLabel: true, noDepth: true }),
+  removeMutedWord: metaMixin(MutedWordSchema, { noLabel: true, noDepth: true }),
   removeMutedWords: argsToArgSchema([z.array(MutedWordSchema)]),
   bskyAppQueueNudges: argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'nudges' })]),
   bskyAppDismissNudges: argsToArgSchema([metaMixin(z.array(metaMixin(z.string())), { label: 'nudges' })]),
