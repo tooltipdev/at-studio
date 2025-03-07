@@ -92,6 +92,7 @@ function UnionFormField({
                         form={form}
                         path={path}
                         depth={depth}
+                        options={virtualPath ? { virtualPath: `${virtualPath}` } : {}}
                       />
                     );
                   case 'ZodArray':
@@ -101,6 +102,7 @@ function UnionFormField({
                         form={form}
                         path={path}
                         depth={depth}
+                        options={virtualPath ? { virtualPath: `${virtualPath}` } : {}}
                       />
                     );
                   case 'ZodUnion':
@@ -110,10 +112,18 @@ function UnionFormField({
                         form={form}
                         path={path}
                         depth={depth}
+                        options={virtualPath ? { virtualPath: `${virtualPath}` } : {}}
                       />
                     );
                   default:
-                    return <InputFormField form={form} schema={optionSchema} path={path} />;
+                    return (
+                      <InputFormField
+                        form={form}
+                        schema={optionSchema}
+                        path={path}
+                        options={virtualPath ? { virtualPath: `${virtualPath}` } : {}}
+                      />
+                    );
                 }
               })()}
             </TabsContent>
