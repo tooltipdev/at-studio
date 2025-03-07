@@ -14,11 +14,16 @@ function ArrayFormField({
   form,
   path,
   depth = 0,
+  options = {},
 }: {
   schema: { [key: string]: any };
   form: UseFormReturn;
   path: string;
   depth?: number;
+  options?: {
+    label?: string;
+    virtualPath?: string;
+  };
 }) {
   const [index, setIndex] = useState(-1);
 
@@ -28,11 +33,13 @@ function ArrayFormField({
     return schema;
   }
 
-  const itemSchema = schema._def?.innerType?._def.type || schema._def?.type || schema.type;
-  const nestedSchema = deeper(itemSchema);
+  const nestedSchema = deeper(
+    schema._def?.innerType?._def.type || schema._def?.type || schema.type
+  );
   const nestedType = nestedSchema._def.typeName;
-  const nestedSchemaMeta = schema.meta ? schema.meta() : {}
-  const nestedLabel = nestedSchemaMeta.label || path;
+  const arrayMetadata = schema.meta ? schema.meta() : {};
+  const virtualPath = arrayMetadata.virtualPath || options.virtualPath
+  const arrayLabel = arrayMetadata.label || options.label || virtualPath || path;
 
   let isOptional = schema.isOptional;
 
@@ -41,7 +48,7 @@ function ArrayFormField({
   return (
     <FormItem>
       <FormLabel>
-        {nestedLabel}
+        {arrayLabel}
         {isOptional && (
           <>
             &nbsp;&nbsp;
@@ -53,7 +60,7 @@ function ArrayFormField({
       </FormLabel>
       <FormDescription>{schema.description}</FormDescription>
       <div className={`p-${2 * depth} ${depth % 2 ? 'bg-slate-50' : 'bg-white'}`}>
-        {index === -1 ? <p className="font-mono">No {nestedLabel} provided</p> : <></>}
+        {index === -1 ? <p className="font-mono">No {arrayLabel} provided</p> : <></>}
         {(() => {
           const items = [];
 
@@ -101,7 +108,7 @@ function ArrayFormField({
                     form={form}
                     path={nestedPath}
                     options={{
-                      label: `${nestedLabel}.${i}`,
+                      label: `${arrayLabel}.${i}`,
                     }}
                   />
                 );
@@ -126,7 +133,7 @@ function ArrayFormField({
         }}
       >
         <Plus />
-        Add more `{nestedLabel}`
+        Add more `{arrayLabel}`
       </Button>
     </FormItem>
   );
