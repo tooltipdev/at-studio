@@ -12,11 +12,16 @@ function UnionFormField({
   schema,
   path,
   depth = 0,
+  options = {},
 }: {
   form: UseFormReturn;
   schema: ZodUnion<any> | ZodOptional<ZodUnion<any>>;
   path: string;
   depth?: number;
+  options?: {
+    label?: string;
+    virtualPath?: string;
+  };
 }) {
   const unionOptions: Array<{ [key: string]: any }> =
     (schema as any).options ||
@@ -30,11 +35,13 @@ function UnionFormField({
   const schemaMetadata = (schema as { [key: string]: any }).meta
     ? (schema as { [key: string]: any }).meta()
     : {};
+  const virtualPath = schemaMetadata.virtualPath || options.virtualPath;
+  const label = schemaMetadata.label || options.label || virtualPath || path;
 
   return (
     <FormItem className="">
       <FormLabel>
-        {schemaMetadata.label || path}
+        {label}
         {isOptional && (
           <>
             &nbsp;&nbsp;
@@ -45,22 +52,14 @@ function UnionFormField({
         )}
       </FormLabel>
       <FormDescription>{schema.description}</FormDescription>
-      <Tabs
-        // onValueChange={(value) => {
-          // console.log(form.getValues().embed)
-          // form.getValues()?.embed && Object.keys(form.getValues().embed).forEach((key) => {
-          //   form.setValue(`${path}.${key}`, undefined)
-          // })
-        // }}
-        className={``}
-      >
+      <Tabs>
         <TabsList className={``}>
           {unionOptions.map((o, i) => {
             const optionsSchema = o._def?.innerType || o;
 
             return (
               <TabsTrigger onClick={() => {}} value={`${i}`}>
-                {optionsSchema.meta && optionsSchema.meta().key || `Variant ${i + 1}`}
+                {(optionsSchema.meta && optionsSchema.meta().key) || `Variant ${i + 1}`}
               </TabsTrigger>
             );
           })}
@@ -85,6 +84,7 @@ function UnionFormField({
                         form={form}
                         path={path}
                         depth={depth}
+                        options={virtualPath ? { virtualPath: `${virtualPath}` } : {}}
                       />
                     );
                   case 'ZodArray':
@@ -94,6 +94,7 @@ function UnionFormField({
                         form={form}
                         path={path}
                         depth={depth}
+                        options={virtualPath ? { virtualPath: `${virtualPath}` } : {}}
                       />
                     );
                   case 'ZodUnion':
@@ -103,61 +104,24 @@ function UnionFormField({
                         form={form}
                         path={path}
                         depth={depth}
+                        options={virtualPath ? { virtualPath: `${virtualPath}` } : {}}
                       />
                     );
                   default:
-                    return <InputFormField form={form} schema={optionSchema} path={path} />;
+                    return (
+                      <InputFormField
+                        form={form}
+                        schema={optionSchema}
+                        path={path}
+                        options={virtualPath ? { virtualPath: `${virtualPath}` } : {}}
+                      />
+                    );
                 }
               })()}
             </TabsContent>
           );
         })}
       </Tabs>
-      {/* {Object.keys(schemaShape).map((fieldName, fieldIdx) => {
-          const fieldSchema = schemaShape[fieldName];
-          const fieldType =
-            fieldSchema._def?.innerType?._def?.typeName || fieldSchema._def?.typeName;
-          const fieldPath = `${path ? `${path}.` : ''}${fieldName}` as string;
-
-          return (
-            <>
-              {fieldIdx ? <br /> : <></>}
-              {(() => {
-                switch (fieldType) {
-                  case 'ZodObject':
-                    return (
-                      <ObjectFormField
-                        schema={schemaShape[fieldName]}
-                        form={form}
-                        path={fieldPath}
-                        depth={depth + 1}
-                      />
-                    );
-                  case 'ZodArray':
-                    return (
-                      <ArrayFormField
-                        schema={schemaShape[fieldName]}
-                        form={form}
-                        path={fieldPath}
-                        depth={depth + 1}
-                      />
-                    );
-                  // case 'ZodUnion':
-                  //   input = (
-                  //     <UnionFormField
-                  //       schema={schemaShape[fieldName]}
-                  //       form={form}
-                  //       path={fieldPath}
-                  //       depth={depth + 1}
-                  //     />
-                  //   );
-                  default:
-                    return <InputFormField form={form} schema={fieldSchema} path={fieldPath} />;
-                }
-              })()}
-            </>
-          );
-        })} */}
     </FormItem>
   );
 }

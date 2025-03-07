@@ -44,11 +44,16 @@ function ObjectFormField({
   schema: rawSchema,
   path,
   depth = 0,
+  options = {},
 }: {
   form: UseFormReturn;
   schema: WrappedZodObject | WrappedZodOptional<WrappedZodObject>;
   path: string;
   depth?: number;
+  options?: {
+    label?: string;
+    virtualPath?: string;
+  };
 }) {
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
   const schema =
@@ -65,12 +70,8 @@ function ObjectFormField({
   const isFieldEnabled = isEnabled || !!!depth;
   const isFieldOptional = isOptional && !!depth;
   const uiDepth = schemaMetadata.noDepth === true ? 0 : depth;
-
-  let label = path;
-
-  if (schemaMetadata.label) {
-    label = schemaMetadata.label;
-  }
+  const virtualPath = schemaMetadata.virtualPath || options.virtualPath;
+  const label = schemaMetadata.label || options.label || virtualPath || path;
 
   return (
     <FormItem>
@@ -125,6 +126,7 @@ function ObjectFormField({
                           form={form}
                           path={fieldPath}
                           depth={childDepth}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
                         />
                       );
                     case 'ZodArray':
@@ -134,6 +136,7 @@ function ObjectFormField({
                           form={form}
                           path={fieldPath}
                           depth={childDepth}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
                         />
                       );
                     case 'ZodUnion':
@@ -143,20 +146,43 @@ function ObjectFormField({
                           form={form}
                           path={fieldPath}
                           depth={childDepth}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
                         />
                       );
                     case 'ZodBoolean':
-                      return <BooleanFormField schema={fieldSchema} form={form} path={fieldPath} />;
+                      return (
+                        <BooleanFormField
+                          schema={fieldSchema}
+                          form={form}
+                          path={fieldPath}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
+                        />
+                      );
                     case 'file':
-                      return <FileFormField schema={fieldSchema} form={form} path={fieldPath} />;
+                      return (
+                        <FileFormField
+                          schema={fieldSchema}
+                          form={form}
+                          path={fieldPath}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
+                        />
+                      );
                     case 'date':
-                      return <DateFormField schema={fieldSchema} form={form} path={fieldPath} />;
+                      return (
+                        <DateFormField
+                          schema={fieldSchema}
+                          form={form}
+                          path={fieldPath}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
+                        />
+                      );
                     default:
                       return (
                         <InputFormField
                           form={form}
                           schema={fieldSchema}
                           path={fieldPath}
+                          options={virtualPath ? { virtualPath: `${virtualPath}.${fieldName}` } : {}}
                         />
                       );
                   }

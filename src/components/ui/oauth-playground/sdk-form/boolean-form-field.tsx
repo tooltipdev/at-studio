@@ -16,16 +16,23 @@ function BooleanFormField({
   schema,
   form,
   path,
+  options = {},
 }: {
   schema: { [key: string]: any };
   form: UseFormReturn;
   path: string;
+  options?: {
+    label?: string;
+    virtualPath?: string;
+  };
 }) {
   let isOptional = schema.isOptional;
 
   if (typeof isOptional === 'function') isOptional = isOptional();
 
   const schemaMetadata = schema.meta ? schema.meta() : {};
+  const virtualPath = schemaMetadata.virtualPath || options.virtualPath;
+  const label = schemaMetadata.label || options.label || virtualPath || path;
 
   return (
     <FormField
@@ -36,7 +43,7 @@ function BooleanFormField({
         return (
           <FormItem>
             <FormLabel>
-              {schemaMetadata.label || path}
+              {label}
               {isOptional && (
                 <>
                   &nbsp;&nbsp;
@@ -48,9 +55,11 @@ function BooleanFormField({
             </FormLabel>
             <FormDescription>{schema.description}</FormDescription>
             <FormControl>
-              <RadioGroup onValueChange={(val: string) => {
-                form.setValue(field.name, Boolean(val))
-              }}>
+              <RadioGroup
+                onValueChange={(val: string) => {
+                  form.setValue(field.name, Boolean(val));
+                }}
+              >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="true" id="r2" />
                   <Label htmlFor="r2">true</Label>
