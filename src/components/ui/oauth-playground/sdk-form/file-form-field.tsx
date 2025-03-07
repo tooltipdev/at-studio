@@ -21,6 +21,7 @@ function FileFormField({
   form: UseFormReturn;
   path: string;
   options?: {
+    label?: string;
     virtualPath?: string;
   };
 }) {
@@ -33,7 +34,7 @@ function FileFormField({
 
   const schemaMetadata = schema.meta ? schema.meta() : {};
   const virtualPath = schemaMetadata.virtualPath || options.virtualPath;
-  const label = schemaMetadata.label || virtualPath || path;
+  const label = schemaMetadata.label || options.label || virtualPath || path;
 
   return (
     <FormField
