@@ -31,6 +31,7 @@ function InputFormField({
   path: string;
   options?: {
     label?: string;
+    virtualPath?: string;
   };
 }) {
   let defaultValue =
@@ -46,11 +47,8 @@ function InputFormField({
     ? (schema as { [key: string]: any }).meta()
     : {};
 
-  let label = path;
-
-  if (schemaMetadata.label || options.label) {
-    label = schemaMetadata.label || options.label;
-  }
+  const virtualPath = schemaMetadata.virtualPath || options.virtualPath;
+  const label = schemaMetadata.label || options.label || virtualPath || path;
 
   return (
     <FormField
