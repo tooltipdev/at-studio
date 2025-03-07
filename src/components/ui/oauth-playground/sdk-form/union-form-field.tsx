@@ -12,11 +12,16 @@ function UnionFormField({
   schema,
   path,
   depth = 0,
+  options = {},
 }: {
   form: UseFormReturn;
   schema: ZodUnion<any> | ZodOptional<ZodUnion<any>>;
   path: string;
   depth?: number;
+  options?: {
+    label?: string;
+    virtualPath?: string;
+  };
 }) {
   const unionOptions: Array<{ [key: string]: any }> =
     (schema as any).options ||
@@ -30,11 +35,13 @@ function UnionFormField({
   const schemaMetadata = (schema as { [key: string]: any }).meta
     ? (schema as { [key: string]: any }).meta()
     : {};
+  const virtualPath = schemaMetadata.virtualPath || options.virtualPath;
+  const label = schemaMetadata.label || options.label || virtualPath || path;
 
   return (
     <FormItem className="">
       <FormLabel>
-        {schemaMetadata.label || path}
+        {label}
         {isOptional && (
           <>
             &nbsp;&nbsp;
@@ -47,10 +54,10 @@ function UnionFormField({
       <FormDescription>{schema.description}</FormDescription>
       <Tabs
         // onValueChange={(value) => {
-          // console.log(form.getValues().embed)
-          // form.getValues()?.embed && Object.keys(form.getValues().embed).forEach((key) => {
-          //   form.setValue(`${path}.${key}`, undefined)
-          // })
+        // console.log(form.getValues().embed)
+        // form.getValues()?.embed && Object.keys(form.getValues().embed).forEach((key) => {
+        //   form.setValue(`${path}.${key}`, undefined)
+        // })
         // }}
         className={``}
       >
@@ -60,7 +67,7 @@ function UnionFormField({
 
             return (
               <TabsTrigger onClick={() => {}} value={`${i}`}>
-                {optionsSchema.meta && optionsSchema.meta().key || `Variant ${i + 1}`}
+                {(optionsSchema.meta && optionsSchema.meta().key) || `Variant ${i + 1}`}
               </TabsTrigger>
             );
           })}
