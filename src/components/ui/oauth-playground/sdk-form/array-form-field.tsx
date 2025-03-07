@@ -38,7 +38,7 @@ function ArrayFormField({
   );
   const nestedType = nestedSchema._def.typeName;
   const arrayMetadata = schema.meta ? schema.meta() : {};
-  const virtualPath = arrayMetadata.virtualPath || options.virtualPath
+  const virtualPath = arrayMetadata.virtualPath || options.virtualPath;
   const arrayLabel = arrayMetadata.label || options.label || virtualPath || path;
 
   let isOptional = schema.isOptional;
@@ -77,6 +77,7 @@ function ArrayFormField({
                     schema={nestedSchema}
                     form={form}
                     path={nestedPath}
+                    options={virtualPath ? { virtualPath: `${virtualPath}.${i}` } : {}}
                   />
                 );
                 break;
@@ -87,6 +88,7 @@ function ArrayFormField({
                     schema={nestedSchema}
                     form={form}
                     path={nestedPath}
+                    options={virtualPath ? { virtualPath: `${virtualPath}.${i}` } : {}}
                   />
                 );
                 break;
@@ -97,6 +99,7 @@ function ArrayFormField({
                     form={form}
                     path={nestedPath}
                     depth={depth + 1}
+                    options={virtualPath ? { virtualPath: `${virtualPath}.${i}` } : {}}
                   />
                 );
               case 'ZodOptional':
@@ -107,9 +110,7 @@ function ArrayFormField({
                     schema={nestedSchema}
                     form={form}
                     path={nestedPath}
-                    options={{
-                      label: `${arrayLabel}.${i}`,
-                    }}
+                    options={virtualPath ? { virtualPath: `${virtualPath}.${i}` } : {}}
                   />
                 );
             }
