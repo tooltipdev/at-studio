@@ -52,15 +52,7 @@ function UnionFormField({
         )}
       </FormLabel>
       <FormDescription>{schema.description}</FormDescription>
-      <Tabs
-        // onValueChange={(value) => {
-        // console.log(form.getValues().embed)
-        // form.getValues()?.embed && Object.keys(form.getValues().embed).forEach((key) => {
-        //   form.setValue(`${path}.${key}`, undefined)
-        // })
-        // }}
-        className={``}
-      >
+      <Tabs>
         <TabsList className={``}>
           {unionOptions.map((o, i) => {
             const optionsSchema = o._def?.innerType || o;
@@ -130,51 +122,6 @@ function UnionFormField({
           );
         })}
       </Tabs>
-      {/* {Object.keys(schemaShape).map((fieldName, fieldIdx) => {
-          const fieldSchema = schemaShape[fieldName];
-          const fieldType =
-            fieldSchema._def?.innerType?._def?.typeName || fieldSchema._def?.typeName;
-          const fieldPath = `${path ? `${path}.` : ''}${fieldName}` as string;
-
-          return (
-            <>
-              {fieldIdx ? <br /> : <></>}
-              {(() => {
-                switch (fieldType) {
-                  case 'ZodObject':
-                    return (
-                      <ObjectFormField
-                        schema={schemaShape[fieldName]}
-                        form={form}
-                        path={fieldPath}
-                        depth={depth + 1}
-                      />
-                    );
-                  case 'ZodArray':
-                    return (
-                      <ArrayFormField
-                        schema={schemaShape[fieldName]}
-                        form={form}
-                        path={fieldPath}
-                        depth={depth + 1}
-                      />
-                    );
-                  // case 'ZodUnion':
-                  //   input = (
-                  //     <UnionFormField
-                  //       schema={schemaShape[fieldName]}
-                  //       form={form}
-                  //       path={fieldPath}
-                  //       depth={depth + 1}
-                  //     />
-                  //   );
-                  default:
-                    return <InputFormField form={form} schema={fieldSchema} path={fieldPath} />;
-                }
-              })()}
-            </>
-          );
-        })} */}
     </FormItem>
   );
 }
