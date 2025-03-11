@@ -18,24 +18,32 @@ import ObjectFormField from './object-form-field';
 import SDKMethodProxy from '@/services/bsky-sdk/method-proxy';
 import { WrappedZodType } from '@/services/bsky-sdk/types';
 
-function SDKFormResponse({ res }: { res: any }) {
+function SDKFormResponse({ res, err }: { res?: any; err?: Error | string | any }) {
   return (
     <>
-      <Tabs defaultValue="table" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="table">Table</TabsTrigger>
-          <TabsTrigger value="json">JSON</TabsTrigger>
-        </TabsList>
-        <TabsContent value="table">
-          <DataTable data={res} />
-        </TabsContent>
-        <TabsContent value="json">
-          <ScrollArea className="w-full max-h-[50vh] overflow-auto bg-slate-100 p-5 rounded-md">
-            <pre>{JSON.stringify(res, null, 2)}</pre>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        </TabsContent>
-      </Tabs>
+      {err && !res && (
+        <ScrollArea className="w-full max-h-[50vh] overflow-auto bg-slate-100 p-5 rounded-md">
+          <pre>{typeof err === 'string' ? err : err.message || JSON.stringify(err)}</pre>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      )}
+      {!err && res && (
+        <Tabs defaultValue="table" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="table">Table</TabsTrigger>
+            <TabsTrigger value="json">JSON</TabsTrigger>
+          </TabsList>
+          <TabsContent value="table">
+            <DataTable data={res} />
+          </TabsContent>
+          <TabsContent value="json">
+            <ScrollArea className="w-full max-h-[50vh] overflow-auto bg-slate-100 p-5 rounded-md">
+              <pre>{JSON.stringify(res, null, 2)}</pre>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </TabsContent>
+        </Tabs>
+      )}
     </>
   );
 }
@@ -51,6 +59,7 @@ function SDKForm({
 }) {
   const schema = schemaMap[method] as { [key: string]: any };
   const [response, setResponse] = useState<null | { [key: string]: any }>(null);
+  const [responseError, setResponseError] = useState<null | Error | string | any>(null);
 
   const form = useForm({
     resolver: zodResolver(schema as ZodType<any>),
@@ -84,9 +93,12 @@ function SDKForm({
     try {
       const res = await formSubmit();
 
+      setResponseError(null);
       setResponse(res);
     } catch (err) {
       console.error(err);
+      setResponse(null);
+      setResponseError(err);
     }
   }
 
@@ -99,11 +111,7 @@ function SDKForm({
         onSubmit={form.handleSubmit(onSubmit, console.log)}
         className="space-y-8"
       >
-        <ObjectFormField
-          form={form}
-          schema={schema as WrappedZodType<ZodObject<any>>}
-          path=''
-        />
+        <ObjectFormField form={form} schema={schema as WrappedZodType<ZodObject<any>>} path="" />
         <div className="flex space-x-2">
           <Button variant="outline" onClick={onCancel}>
             Back
@@ -112,11 +120,13 @@ function SDKForm({
             Submit
           </Button>
         </div>
-        {response && (
+        {(response || responseError) && (
           <>
             <Separator />
-            <h2 className="text-center font-bold">{method} : Response</h2>
-            <SDKFormResponse res={response.data || response} />
+            <h2 className="text-center font-bold">
+              {method} : {response ? 'Response' : 'Error'}
+            </h2>
+            <SDKFormResponse res={(response && response.data) || response} err={responseError} />
           </>
         )}
       </form>
