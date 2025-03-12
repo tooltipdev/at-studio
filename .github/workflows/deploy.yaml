@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  HOST: ${{ var.PAGES_HOST }}
+  HOST: ${{ vars.PAGES_HOST }}
 
 jobs:
   build:
