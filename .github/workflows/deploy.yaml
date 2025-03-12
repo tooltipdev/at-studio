@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  HOST: https://tooltipdev.github.io/bsky-oauth-playground/
+  HOST: ${{ var.PAGES_HOST }}
 
 jobs:
   build:
