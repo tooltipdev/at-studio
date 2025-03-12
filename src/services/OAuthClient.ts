@@ -29,7 +29,20 @@ export default class OAuthClient {
   }
 
   async init() {
-    const result = await this.browserOAuthClient.init();
+    let result;
+
+    try {
+      result = await this.browserOAuthClient.init();
+    } catch (err) {
+      console.error(err);
+
+      // allow unauthenticated client to return
+      if (err instanceof Error && err.message === 'Refresh token exceeded inactivity timeout') {
+        this.authenticatedUserSub = undefined;
+      } else {
+        throw err;
+      }
+    }
 
     if (result) {
       const { session, state } = result as { session: OAuthSession; state?: string };
