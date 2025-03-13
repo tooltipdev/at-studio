@@ -19,7 +19,7 @@ function SDKDashboard() {
   return (
     client && (
       <>
-        <h1 className="text-center text-lg pb-2.5 font-normal">OAuth Playground</h1>
+        <h1 className="text-center text-lg pb-2.5 font-normal">bsky OAuth Playground</h1>
         {client.isAuthenticated && (
           <Card className="max-w-[80vw]">
             <CardHeader>
