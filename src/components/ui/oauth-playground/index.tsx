@@ -69,7 +69,7 @@ function Playground() {
                       className="underline"
                       href="https://www.npmjs.com/package/@atproto/oauth-client-browser"
                     >
-                      browser client implementation
+                      browser client SDK implementation
                     </a>
                     .
                     <br />
