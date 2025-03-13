@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '../shadcn/button';
+import { Badge } from '../shadcn/badge';
 
 function Playground() {
   const { client } = useContext(OAuthClientContext);
@@ -48,7 +49,7 @@ function Playground() {
     <div className="h-screen flex flex-col items-center">
       {client && (
         <>
-          <div className="h-auto p-2 w-screen max-w-[960px]">
+          <div className="h-auto p-2 w-screen max-w-[960px] flex items-center">
             <Dialog>
               <DialogTrigger>
                 <Button variant="ghost">About</Button>
@@ -60,19 +61,32 @@ function Playground() {
                   <br />
                   <DialogDescription>
                     This web app lets you easily experiment with the{' '}
-                    <a className="underline" href="https://atproto.com/">@ATProtocol</a> via the{' '}
-                    <a className="underline" href="https://www.npmjs.com/package/@atproto/oauth-client-browser">
+                    <a className="underline" href="https://atproto.com/">
+                      @ATProtocol
+                    </a>{' '}
+                    via the{' '}
+                    <a
+                      className="underline"
+                      href="https://www.npmjs.com/package/@atproto/oauth-client-browser"
+                    >
                       browser client implementation
                     </a>
                     .
                     <br />
                     <br />
-                    Currently, only <a className="underline" href="https://bsky.social">bsky.social</a> instances are
-                    supported, but other PDS's and entryways will be supported in the future.
+                    Currently, only{' '}
+                    <a className="underline" href="https://bsky.social">
+                      bsky.social
+                    </a>{' '}
+                    instances are supported, but other PDS's and entryways will be supported in the
+                    future.
                     <br />
                     <br />
-                    Sign in with you <a className="underline" href="https://bsky.app/">bsky.app</a> account to interact
-                    with the protocol.
+                    Sign in with you{' '}
+                    <a className="underline" href="https://bsky.app/">
+                      bsky.app
+                    </a>{' '}
+                    account to interact with the protocol.
                   </DialogDescription>
                 </DialogHeader>
               </DialogContent>
@@ -86,6 +100,7 @@ function Playground() {
             >
               GitHub
             </Button>
+            <Badge className="ml-2">v.0.0.0-mvp</Badge>
             {profile && (
               <div className="float-right">
                 <DropdownMenu>
