@@ -13,8 +13,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../shadcn/dropdown-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '../shadcn/button';
 
-function Playground(props: { [key: string]: string }) {
+function Playground() {
   const { client } = useContext(OAuthClientContext);
   const [profile, setProfile] = useState<null | Awaited<
     ReturnType<typeof Agent.prototype.getProfile>
@@ -30,41 +39,94 @@ function Playground(props: { [key: string]: string }) {
 
         setProfile(userProfile);
       })();
-    }else {
-      setProfile(null)
+    } else {
+      setProfile(null);
     }
   }, [client?.isAuthenticated]);
 
   return (
-    <div {...props}>
+    <div className="h-screen flex flex-col items-center">
       {client && (
         <>
-          {profile && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Avatar className="fixed top-4 right-4">
-                  <AvatarImage src={profile.data.avatar} /> <AvatarFallback>...</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>@{profile.data.handle}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={() => {
-                    client.signOut();
-                  }}
-                >
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-          {client.isAuthenticated ? <SDKDashboard /> : <Logo size="lg"></Logo>}
-          {!client.isAuthenticated && (
-            <div className="text-center p-4">
-              <AuthButton client={client}></AuthButton>
-            </div>
-          )}
+          <div className="h-auto p-2 w-screen max-w-[960px]">
+            <Dialog>
+              <DialogTrigger>
+                <Button variant="ghost">About</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>About this app</DialogTitle>
+                  <br />
+                  <br />
+                  <DialogDescription>
+                    This web app lets you easily experiment with the{' '}
+                    <a className="underline" href="https://atproto.com/">@ATProtocol</a> via the{' '}
+                    <a className="underline" href="https://www.npmjs.com/package/@atproto/oauth-client-browser">
+                      browser client implementation
+                    </a>
+                    .
+                    <br />
+                    <br />
+                    Currently, only <a className="underline" href="https://bsky.social">bsky.social</a> instances are
+                    supported, but other PDS's and entryways will be supported in the future.
+                    <br />
+                    <br />
+                    Sign in with you <a className="underline" href="https://bsky.app/">bsky.app</a> account to interact
+                    with the protocol.
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+
+            <Button
+              variant="ghost"
+              onClick={() =>
+                window.open('https://github.com/tooltipdev/bsky-oauth-playground', '_blank')
+              }
+            >
+              GitHub
+            </Button>
+            {profile && (
+              <div className="float-right">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Avatar>
+                      <AvatarImage src={profile.data.avatar} /> <AvatarFallback>...</AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>@{profile.data.handle}</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => {
+                        client.signOut();
+                      }}
+                    >
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
+          </div>
+          <div className="flex-1 flex flex-col items-center justify-center">
+            {client.isAuthenticated ? <SDKDashboard /> : <Logo size="lg"></Logo>}
+            {!client.isAuthenticated && (
+              <div className="text-center p-4">
+                <AuthButton client={client}></AuthButton>
+              </div>
+            )}
+          </div>
+          <div className="h-auto p-2 text-center">
+            Maintained by{' '}
+            <a
+              className="font-mono underline"
+              target="_blank"
+              href="https://bsky.app/profile/tooltip.bsky.social"
+            >
+              @tooltip.bsky.social
+            </a>
+          </div>
         </>
       )}
     </div>
