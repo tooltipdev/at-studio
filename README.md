@@ -8,7 +8,7 @@
 - `npx localtunnel --port 3001`
 - copy tunnel URL
 - cd project directory
-- `export HOST={YOUR_LOCALTUNNEL_URL} PORT={YOUR_PORT}/bsky-oauth-playground/`
+- `export HOST={YOUR_LOCALTUNNEL_URL}/bsky-oauth-playground/ PORT={YOUR_PORT}`
 - `npm run dev`
 
 # Contribution
