@@ -69,7 +69,7 @@ function Playground() {
                       className="underline"
                       href="https://www.npmjs.com/package/@atproto/oauth-client-browser"
                     >
-                      browser client implementation
+                      browser client SDK implementation
                     </a>
                     .
                     <br />
@@ -101,8 +101,9 @@ function Playground() {
               GitHub
             </Button>
             <Badge className="ml-2">v.0.0.0-mvp</Badge>
+            <div className='flex-1'></div>
             {profile && (
-              <div className="float-right">
+              <div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Avatar>
