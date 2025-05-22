@@ -37,6 +37,8 @@ export default defineConfig({
   define: {
     // Attach dynamic OAuth client metadata to vite runtime
     __OAUTH_CLIENT_METADATA__: clientMetadata,
-    __OAUTH_LOCALES__: OAUTH_LOCALES,
+    __OAUTH_CONFIG__: {
+      ...(OAUTH_LOCALES ? { locales: OAUTH_LOCALES } : {}),
+    },
   },
 });
