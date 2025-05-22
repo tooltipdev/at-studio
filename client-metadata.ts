@@ -1,7 +1,7 @@
-const { HOST } = process.env;
+const { HOST, CLIENT_METADATA_CLIENT_NAME } = process.env;
 
 export default {
-  client_name: 'bsky Labs: OAuth2 Playground',
+  client_name: CLIENT_METADATA_CLIENT_NAME,
   client_id: `${HOST}client-metadata.json`,
   client_uri: HOST,
   logo_uri: 'https://avatars.githubusercontent.com/u/192393975',
