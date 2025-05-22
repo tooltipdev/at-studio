@@ -13,11 +13,12 @@ export default class OAuthClient {
   events = {
     handlers: {} as { [key: string]: Array<() => void | Promise<void>> },
     on(t: string, cb: () => void | Promise<void>) {
-      !this.handlers[t] && (this.handlers[t] = []);
+      if (!this.handlers[t]) this.handlers[t] = [];
+
       this.handlers[t].push(cb);
     },
     emit(t: string) {
-      this.handlers[t]?.length && this.handlers[t].forEach((h) => h());
+      if (this.handlers[t]?.length) this.handlers[t].forEach((h) => h());
     },
   };
 
