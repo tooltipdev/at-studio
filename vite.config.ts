@@ -5,11 +5,12 @@ import assert from 'assert';
 import clientMetadata from './client-metadata';
 import { IncomingMessage, ServerResponse } from 'http';
 
-const { HOST, PORT, BASE_PATH } = process.env;
+const { HOST, PORT, BASE_PATH, CLIENT_METADATA_CLIENT_NAME } = process.env;
 
 assert(HOST, 'HOST is not defined');
 assert(PORT, 'PORT is not defined');
 assert(BASE_PATH, 'BASE_PATH is not defined');
+assert(CLIENT_METADATA_CLIENT_NAME, 'CLIENT_METADATA_CLIENT_NAME is not defined');
 
 export default defineConfig({
   base: `${BASE_PATH}/`,
