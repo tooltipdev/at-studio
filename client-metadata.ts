@@ -1,12 +1,13 @@
 const { HOST, BASE_PATH, CLIENT_METADATA_CLIENT_NAME } = process.env;
 const host = HOST!.replace(/\/+$/, '');
+const uri = `${host}${BASE_PATH}/`;
 
 export default {
   client_name: CLIENT_METADATA_CLIENT_NAME,
-  client_id: `${host}/${BASE_PATH}/client-metadata.json`,
-  client_uri: host,
+  client_id: `${uri}client-metadata.json`,
+  client_uri: uri,
   logo_uri: 'https://avatars.githubusercontent.com/u/192393975',
-  redirect_uris: [host],
+  redirect_uris: [uri],
   scope: 'atproto transition:generic',
   grant_types: ['authorization_code', 'refresh_token'],
   response_types: ['code'],
