@@ -5,12 +5,14 @@ import assert from 'assert';
 import clientMetadata from './client-metadata';
 import { IncomingMessage, ServerResponse } from 'http';
 
-const { HOST, PORT } = process.env;
+const { HOST, PORT, BASE_PATH } = process.env;
 
 assert(HOST, 'HOST is not defined');
+assert(PORT, 'PORT is not defined');
+assert(BASE_PATH, 'BASE_PATH is not defined');
 
 export default defineConfig({
-  base: '/bsky-oauth-playground/',
+  base: `${BASE_PATH}/`,
   plugins: [react()],
   resolve: {
     alias: {
@@ -21,8 +23,7 @@ export default defineConfig({
     allowedHosts: true,
     port: PORT ? parseInt(PORT): 3001,
     proxy: {
-      // Serve dynamic OAuth client metadata from local dev environment
-      '/bsky-oauth-playground/client-metadata.json': {
+      [`${BASE_PATH}/client-metadata.json`]: {
         target: '', // mock target shouldn't be hit
         bypass: (_req: IncomingMessage, res: ServerResponse) => {
           res?.writeHead(200, { 'Content-Type': 'application/json' });
