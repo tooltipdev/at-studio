@@ -1,9 +1,9 @@
-const { HOST, BASE_PATH, CLIENT_METADATA_CLIENT_NAME } = process.env;
+const { HOST, BASE_PATH, OAUTH_CLIENT_METADATA_CLIENT_NAME } = process.env;
 const host = HOST!.replace(/\/+$/, '');
 const uri = `${host}${BASE_PATH}/`;
 
 export default {
-  client_name: CLIENT_METADATA_CLIENT_NAME,
+  client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME,
   client_id: `${uri}client-metadata.json`,
   client_uri: uri,
   logo_uri: 'https://avatars.githubusercontent.com/u/192393975',
