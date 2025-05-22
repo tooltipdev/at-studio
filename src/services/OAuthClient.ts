@@ -60,7 +60,7 @@ export default class OAuthClient {
   async signIn() {
     return this.browserOAuthClient.signIn(BSKY_PDS_ENTRYWAY, {
       state: `${Date.now()}`,
-      ui_locales: 'fr-CA fr en',
+      ...__OAUTH_LOCALES__ ? { ui_locales: __OAUTH_LOCALES__ } : {},
     });
   }
 

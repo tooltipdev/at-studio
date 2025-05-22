@@ -5,7 +5,7 @@ import assert from 'assert';
 import clientMetadata from './client-metadata';
 import { IncomingMessage, ServerResponse } from 'http';
 
-const { HOST, PORT, BASE_PATH, CLIENT_METADATA_CLIENT_NAME } = process.env;
+const { HOST, PORT, BASE_PATH, CLIENT_METADATA_CLIENT_NAME, OAUTH_LOCALES } = process.env;
 
 assert(HOST, 'HOST is not defined');
 assert(PORT, 'PORT is not defined');
@@ -22,7 +22,7 @@ export default defineConfig({
   },
   server: {
     allowedHosts: true,
-    port: PORT ? parseInt(PORT): 3001,
+    port: PORT ? parseInt(PORT) : 3001,
     proxy: {
       [`${BASE_PATH}/client-metadata.json`]: {
         target: '', // mock target shouldn't be hit
@@ -37,5 +37,6 @@ export default defineConfig({
   define: {
     // Attach dynamic OAuth client metadata to vite runtime
     __OAUTH_CLIENT_METADATA__: clientMetadata,
+    __OAUTH_LOCALES__: OAUTH_LOCALES,
   },
 });
