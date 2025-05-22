@@ -46,6 +46,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.44.1",
     "@eslint/js": "^9.17.0",
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.17",
