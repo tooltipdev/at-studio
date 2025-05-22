@@ -33,7 +33,7 @@ export default function OAuthClientProvider({ children }: { children: React.Reac
   }, [])
 
   return (
-    <OAuthClientContext.Provider value={{client, isLoading: !!!client, isLoadingError: initFailed}}>
+    <OAuthClientContext.Provider value={{client, isLoading: client ? false : true, isLoadingError: initFailed}}>
       {children}
     </OAuthClientContext.Provider>
   );
