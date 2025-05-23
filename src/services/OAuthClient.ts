@@ -5,11 +5,16 @@ import {
   OAuthSession,
 } from '@atproto/oauth-client-browser';
 
-export const OAUTH_CLIENT_METADATA = __OAUTH_CLIENT_METADATA__ as OAuthClientMetadataInput;
-export const BSKY_PDS_ENTRYWAY = 'https://bsky.social';
+export type OAuthClientServiceOptions = {
+  entryway?: string;
+  locales?: string;
+};
+
 export default class OAuthClient {
   browserOAuthClient: BrowserOAuthClient;
   authenticatedUserSub: Did | undefined;
+  options: OAuthClientServiceOptions;
+  handleResolver: string;
   events = {
     handlers: {} as { [key: string]: Array<() => void | Promise<void>> },
     on(t: string, cb: () => void | Promise<void>) {
@@ -22,11 +27,27 @@ export default class OAuthClient {
     },
   };
 
-  constructor() {
+  constructor(clientMetadata: OAuthClientMetadataInput, options: OAuthClientServiceOptions = {}) {
+    const handleResolver = OAuthClient.parseHandleResolver(options);
+
+    if (!handleResolver) throw new Error('No handleResolver found');
+
+    this.options = options;
+    this.handleResolver = handleResolver;
     this.browserOAuthClient = new BrowserOAuthClient({
-      clientMetadata: OAUTH_CLIENT_METADATA,
-      handleResolver: BSKY_PDS_ENTRYWAY,
+      clientMetadata,
+      handleResolver: this.handleResolver,
     });
+  }
+
+  static parseHandleResolver(options: OAuthClientServiceOptions) {
+    let handleResolver: string | undefined;
+
+    if (options.entryway) {
+      handleResolver = options.entryway;
+    }
+
+    return handleResolver;
   }
 
   async init() {
@@ -59,9 +80,9 @@ export default class OAuthClient {
   }
 
   async signIn() {
-    return this.browserOAuthClient.signIn(BSKY_PDS_ENTRYWAY, {
+    return this.browserOAuthClient.signIn(this.handleResolver, {
       state: `${Date.now()}`,
-      ...(__OAUTH_CONFIG__.locales ? { ui_locales: __OAUTH_CONFIG__.locales } : {}),
+      ...(this.options.locales ? { ui_locales: this.options.locales } : {}),
     });
   }
 
