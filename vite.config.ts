@@ -11,12 +11,18 @@ const {
   DEV_BASE_PATH,
   OAUTH_LOCALES,
   OAUTH_PDS_ENTRYWAY,
+  OAUTH_CLIENT_METADATA_CLIENT_NAME,
+  OAUTH_CLIENT_METADATA_CLIENT_URI,
   NODE_ENV,
 } = process.env;
 
 if (NODE_ENV === 'development') {
   assert(DEV_PORT, 'DEV_PORT is not defined');
   assert(DEV_BASE_PATH, 'DEV_BASE_PATH is not defined');
+
+  // Metadata checks needed by dev server to serve client metadata (preview servers serve /dist)
+  assert(OAUTH_CLIENT_METADATA_CLIENT_NAME, 'OAUTH_CLIENT_METADATA_CLIENT_NAME not defined');
+  assert(OAUTH_CLIENT_METADATA_CLIENT_URI, 'OAUTH_CLIENT_METADATA_CLIENT_URI not defined');
 }
 
 const oAuthConfig: OAuthClientServiceOptions = {};
