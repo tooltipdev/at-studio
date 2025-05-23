@@ -25,6 +25,7 @@ if (OAUTH_LOCALES) oAuthConfig.locales = OAUTH_LOCALES;
 if (OAUTH_PDS_ENTRYWAY) oAuthConfig.entryway = OAUTH_PDS_ENTRYWAY;
 
 export default defineConfig({
+  // required for dev server and preview server
   base: `${DEV_BASE_PATH}/`,
   plugins: [react()],
   resolve: {
@@ -34,7 +35,9 @@ export default defineConfig({
   },
   server: {
     allowedHosts: true,
+    // required for dev server (preview server runs on 4173)
     port: DEV_PORT ? parseInt(DEV_PORT) : 3001,
+    // required for dev server to serve oauth client metadata
     proxy: {
       [`${DEV_BASE_PATH}/client-metadata.json`]: {
         target: '', // mock target shouldn't be hit
