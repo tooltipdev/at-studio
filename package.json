@@ -7,7 +7,7 @@
     "node": "22.x"
   },
   "scripts": {
-    "dev": "dotenvx run -f .env -- vite",
+    "dev": "dotenvx run -f .env --env NODE_ENV=development -- vite",
     "build": "tsc -b && dotenvx run -f .env -- vite build && dotenvx run -f .env -- npx tsx ./scripts/node/export-client-metadata.ts",
     "lint": "eslint .",
     "preview": "dotenvx run -f .env -- vite preview",
