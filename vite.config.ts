@@ -57,6 +57,7 @@ export default defineConfig({
       },
     },
   } as ServerOptions,
+  // Export configuration objects for local/preview servers and /dist build process
   define: {
     __OAUTH_CLIENT_METADATA__: clientMetadata,
     __OAUTH_CONFIG__: oAuthConfig,
