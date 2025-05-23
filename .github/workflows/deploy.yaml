@@ -4,7 +4,13 @@ on:
   workflow_dispatch:
 
 env:
-  HOST: ${{ vars.PAGES_HOST }}
+  HOST: ${{ vars.HOST }}
+  PORT: ${{ vars.PORT }}
+  BASE_PATH: ${{ vars.BASE_PATH }}
+  OAUTH_CLIENT_METADATA_CLIENT_NAME: ${{ vars.OAUTH_CLIENT_METADATA_CLIENT_NAME }}
+  OAUTH_LOCALES: ${{ vars.OAUTH_LOCALES }}
+  OAUTH_PDS_ENTRYWAY: ${{ vars.OAUTH_PDS_ENTRYWAY }}
+  VITE_APP_VERSION: ${{ vars.VITE_APP_VERSION }}
 
 jobs:
   build:
