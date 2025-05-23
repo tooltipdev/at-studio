@@ -10,7 +10,6 @@ const {
   HOST,
   PORT,
   BASE_PATH,
-  OAUTH_CLIENT_METADATA_CLIENT_NAME,
   OAUTH_LOCALES,
   OAUTH_PDS_ENTRYWAY,
 } = process.env;
@@ -18,7 +17,6 @@ const {
 assert(HOST, 'HOST is not defined');
 assert(PORT, 'PORT is not defined');
 assert(BASE_PATH, 'BASE_PATH is not defined');
-assert(OAUTH_CLIENT_METADATA_CLIENT_NAME, 'OAUTH_CLIENT_METADATA_CLIENT_NAME is not defined');
 
 const oAuthConfig: OAuthClientServiceOptions = {};
 

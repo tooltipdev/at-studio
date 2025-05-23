@@ -3,7 +3,7 @@ const host = HOST!.replace(/\/+$/, '');
 const uri = `${host}${BASE_PATH}/`;
 
 export default {
-  client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME,
+  client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME || 'bsky-oauth-playground',
   client_id: `${uri}client-metadata.json`,
   client_uri: uri,
   logo_uri: 'https://avatars.githubusercontent.com/u/192393975',
