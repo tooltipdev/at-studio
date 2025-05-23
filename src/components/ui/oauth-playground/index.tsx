@@ -24,6 +24,8 @@ import {
 import { Button } from '../shadcn/button';
 import { Badge } from '../shadcn/badge';
 
+const { VITE_APP_VERSION } = import.meta.env;
+
 function Playground() {
   const { client } = useContext(OAuthClientContext);
   const [profile, setProfile] = useState<null | Awaited<
@@ -100,7 +102,7 @@ function Playground() {
             >
               GitHub
             </Button>
-            <Badge className="ml-2">v.0.0.0-mvp</Badge>
+            <Badge className="ml-2">{VITE_APP_VERSION}</Badge>
             <div className='flex-1'></div>
             {profile && (
               <div>
