@@ -10,7 +10,7 @@
     "dev": "dotenvx run -f .env --env NODE_ENV=development -- vite",
     "build": "tsc -b && dotenvx run -f .env -- vite build && dotenvx run -f .env -- npx tsx ./scripts/node/export-client-metadata.ts",
     "lint": "eslint .",
-    "preview": "npm run build && dotenvx run -f .env --env NODE_ENV=development -- vite preview",
+    "preview": "npm run build && dotenvx run -f .env --env NODE_ENV=preview -- vite preview",
     "export-schemas": "npx tsx ./scripts/node/generate-form-metadata.ts"
   },
   "dependencies": {
