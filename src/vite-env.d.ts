@@ -1,7 +1,12 @@
 /// <reference types="vite/client" />
 
-// stringified @atproto/oauth-client-browser BrowserOAuthClient clientMetadata
-declare const __OAUTH_CLIENT_METADATA__: object;
+import type { OAuthClientMetadataInput } from '@atproto/oauth-client-browser';
+import type { OAuthClientServiceOptions } from './services/OAuthClient';
 
-// @atproto oauth client additional configuration
-declare const __OAUTH_CONFIG__: { locales: string };
+declare global {
+  // @atproto/oauth-client-browser BrowserOAuthClient clientMetadata
+  declare const __OAUTH_CLIENT_METADATA__: OAuthClientMetadataInput;
+
+  // @atproto/oauth-client-browser configuration
+  declare const __OAUTH_CONFIG__: OAuthClientServiceOptions;
+}
