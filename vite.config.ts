@@ -4,13 +4,26 @@ import { ServerOptions, defineConfig } from 'vite';
 import assert from 'assert';
 import clientMetadata from './client-metadata';
 import { IncomingMessage, ServerResponse } from 'http';
+import type { OAuthClientServiceOptions } from './src/services/OAuthClient';
 
-const { HOST, PORT, BASE_PATH, OAUTH_CLIENT_METADATA_CLIENT_NAME, OAUTH_LOCALES } = process.env;
+const {
+  HOST,
+  PORT,
+  BASE_PATH,
+  OAUTH_CLIENT_METADATA_CLIENT_NAME,
+  OAUTH_LOCALES,
+  OAUTH_PDS_ENTRYWAY,
+} = process.env;
 
 assert(HOST, 'HOST is not defined');
 assert(PORT, 'PORT is not defined');
 assert(BASE_PATH, 'BASE_PATH is not defined');
 assert(OAUTH_CLIENT_METADATA_CLIENT_NAME, 'OAUTH_CLIENT_METADATA_CLIENT_NAME is not defined');
+
+const oAuthConfig: OAuthClientServiceOptions = {};
+
+if (OAUTH_LOCALES) oAuthConfig.locales = OAUTH_LOCALES;
+if (OAUTH_PDS_ENTRYWAY) oAuthConfig.entryway = OAUTH_PDS_ENTRYWAY;
 
 export default defineConfig({
   base: `${BASE_PATH}/`,
@@ -35,10 +48,7 @@ export default defineConfig({
     },
   } as unknown as ServerOptions,
   define: {
-    // Attach dynamic OAuth client metadata to vite runtime
     __OAUTH_CLIENT_METADATA__: clientMetadata,
-    __OAUTH_CONFIG__: {
-      ...(OAUTH_LOCALES ? { locales: OAUTH_LOCALES } : {}),
-    },
+    __OAUTH_CONFIG__: oAuthConfig,
   },
 });
