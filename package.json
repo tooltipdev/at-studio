@@ -8,9 +8,9 @@
   },
   "scripts": {
     "dev": "dotenvx run -f .env -- vite",
-    "build": "tsc -b && dotenvx run -f .env -- vite build && npx tsx ./scripts/node/export-client-metadata.ts",
+    "build": "tsc -b && dotenvx run -f .env -- vite build && dotenvx run -f .env -- npx tsx ./scripts/node/export-client-metadata.ts",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "dotenvx run -f .env -- vite preview",
     "export-schemas": "npx tsx ./scripts/node/generate-form-metadata.ts"
   },
   "dependencies": {
