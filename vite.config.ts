@@ -7,8 +7,8 @@ import { IncomingMessage, ServerResponse } from 'http';
 import type { OAuthClientServiceOptions } from './src/services/OAuthClient';
 
 const {
-  DEV_PORT,
-  DEV_BASE_PATH,
+  LOCAL_DEV_PORT,
+  LOCAL_BASE_PATH,
   OAUTH_LOCALES,
   OAUTH_PDS_ENTRYWAY,
   OAUTH_CLIENT_METADATA_CLIENT_NAME,
@@ -17,7 +17,7 @@ const {
 } = process.env;
 
 if (NODE_ENV === 'development') {
-  assert(DEV_PORT, 'DEV_PORT is not defined');
+  assert(LOCAL_DEV_PORT, 'LOCAL_DEV_PORT is not defined');
 
   // Metadata checks needed by dev server to serve client metadata (preview servers serve /dist)
   assert(OAUTH_CLIENT_METADATA_CLIENT_NAME, 'OAUTH_CLIENT_METADATA_CLIENT_NAME not defined');
@@ -25,7 +25,7 @@ if (NODE_ENV === 'development') {
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'preview')
-  assert(DEV_BASE_PATH, 'DEV_BASE_PATH is not defined');
+  assert(LOCAL_BASE_PATH, 'LOCAL_BASE_PATH is not defined');
 
 const oAuthConfig: OAuthClientServiceOptions = {};
 
@@ -34,7 +34,7 @@ if (OAUTH_PDS_ENTRYWAY) oAuthConfig.entryway = OAUTH_PDS_ENTRYWAY;
 
 export default defineConfig({
   // required for dev server and preview server
-  base: `${DEV_BASE_PATH}/`,
+  base: `${LOCAL_BASE_PATH}/`,
   plugins: [react()],
   resolve: {
     alias: {
@@ -44,10 +44,10 @@ export default defineConfig({
   server: {
     allowedHosts: true,
     // required for dev server (preview server runs on 4173)
-    port: DEV_PORT ? parseInt(DEV_PORT) : 3001,
+    port: LOCAL_DEV_PORT ? parseInt(LOCAL_DEV_PORT) : 3001,
     // required for dev server to serve oauth client metadata
     proxy: {
-      [`${DEV_BASE_PATH}/client-metadata.json`]: {
+      [`${LOCAL_BASE_PATH}/client-metadata.json`]: {
         target: '', // mock target shouldn't be hit
         bypass: (_req: IncomingMessage, res: ServerResponse) => {
           res?.writeHead(200, { 'Content-Type': 'application/json' });
