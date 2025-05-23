@@ -3,6 +3,12 @@ import * as path from 'path';
 
 // Import client metadata (assuming client-metadata.ts exports an object)
 import clientMetadata from './../../client-metadata';
+import assert from 'assert';
+
+const { OAUTH_CLIENT_METADATA_CLIENT_NAME, OAUTH_CLIENT_METADATA_CLIENT_URI } = process.env;
+
+assert(OAUTH_CLIENT_METADATA_CLIENT_NAME, 'OAUTH_CLIENT_METADATA_CLIENT_NAME not defined');
+assert(OAUTH_CLIENT_METADATA_CLIENT_URI, 'OAUTH_CLIENT_METADATA_CLIENT_URI not defined');
 
 // Define the output path
 const outputFilePath = process.cwd() + '/dist/client-metadata.json';
@@ -19,7 +25,10 @@ fs.mkdir(path.dirname(outputFilePath), { recursive: true }, (err) => {
     if (err) {
       console.error('Error writing metadata to JSON file:', err);
     } else {
-      console.log('Metadata successfully written to client-metadata.json', path.dirname(outputFilePath));
+      console.log(
+        'Metadata successfully written to client-metadata.json',
+        path.dirname(outputFilePath)
+      );
     }
   });
 });
