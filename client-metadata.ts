@@ -15,7 +15,7 @@ const redirectUris = OAUTH_CLIENT_METADATA_REDIRECT_URIS_CSV
   : [OAUTH_CLIENT_METADATA_CLIENT_URI];
 
 export default {
-  client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME || 'bsky-oauth-playground',
+  client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME,
   client_id: `${OAUTH_CLIENT_METADATA_CLIENT_URI}client-metadata.json`,
   client_uri: OAUTH_CLIENT_METADATA_CLIENT_URI,
   logo_uri: OAUTH_CLIENT_METADATA_AVATAR_URI || '',
