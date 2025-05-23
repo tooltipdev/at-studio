@@ -54,7 +54,7 @@ export default defineConfig({
         },
       },
     },
-  } as unknown as ServerOptions,
+  } as ServerOptions,
   define: {
     __OAUTH_CLIENT_METADATA__: clientMetadata,
     __OAUTH_CONFIG__: oAuthConfig,
