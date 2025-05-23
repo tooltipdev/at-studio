@@ -6,17 +6,14 @@ import clientMetadata from './client-metadata';
 import { IncomingMessage, ServerResponse } from 'http';
 import type { OAuthClientServiceOptions } from './src/services/OAuthClient';
 
-const {
-  DEV_HOST,
-  DEV_PORT,
-  DEV_BASE_PATH,
-  OAUTH_LOCALES,
-  OAUTH_PDS_ENTRYWAY,
-} = process.env;
+const { DEV_HOST, DEV_PORT, DEV_BASE_PATH, OAUTH_LOCALES, OAUTH_PDS_ENTRYWAY, NODE_ENV } =
+  process.env;
 
-assert(DEV_HOST, 'DEV_HOST is not defined');
-assert(DEV_PORT, 'DEV_PORT is not defined');
-assert(DEV_BASE_PATH, 'DEV_BASE_PATH is not defined');
+if (NODE_ENV === 'development') {
+  assert(DEV_HOST, 'DEV_HOST is not defined');
+  assert(DEV_PORT, 'DEV_PORT is not defined');
+  assert(DEV_BASE_PATH, 'DEV_BASE_PATH is not defined');
+}
 
 const oAuthConfig: OAuthClientServiceOptions = {};
 
