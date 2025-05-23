@@ -1,7 +1,17 @@
-const { HOST, BASE_PATH, OAUTH_CLIENT_METADATA_CLIENT_NAME, OAUTH_CLIENT_METADATA_AVATAR_URI } =
-  process.env;
+const {
+  HOST,
+  BASE_PATH,
+  OAUTH_CLIENT_METADATA_CLIENT_NAME,
+  OAUTH_CLIENT_METADATA_AVATAR_URI,
+  OAUTH_CLIENT_METADATA_GRANT_TYPES_CSV,
+  OAUTH_CLIENT_METADATA_SCOPES,
+} = process.env;
+
 const host = HOST!.replace(/\/+$/, '');
 const uri = `${host}${BASE_PATH}/`;
+const grantTypes = OAUTH_CLIENT_METADATA_GRANT_TYPES_CSV
+  ? OAUTH_CLIENT_METADATA_GRANT_TYPES_CSV.split(',').map((type) => type.trim())
+  : ['authorization_code', 'refresh_token'];
 
 export default {
   client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME || 'bsky-oauth-playground',
@@ -9,8 +19,8 @@ export default {
   client_uri: uri,
   logo_uri: OAUTH_CLIENT_METADATA_AVATAR_URI || '',
   redirect_uris: [uri],
-  scope: 'atproto transition:generic',
-  grant_types: ['authorization_code', 'refresh_token'],
+  scope: OAUTH_CLIENT_METADATA_SCOPES || 'atproto transition:generic',
+  grant_types: grantTypes,
   response_types: ['code'],
   token_endpoint_auth_method: 'none',
   application_type: 'web',
