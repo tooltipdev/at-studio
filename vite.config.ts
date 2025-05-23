@@ -7,16 +7,16 @@ import { IncomingMessage, ServerResponse } from 'http';
 import type { OAuthClientServiceOptions } from './src/services/OAuthClient';
 
 const {
-  HOST,
-  PORT,
-  BASE_PATH,
+  DEV_HOST,
+  DEV_PORT,
+  DEV_BASE_PATH,
   OAUTH_LOCALES,
   OAUTH_PDS_ENTRYWAY,
 } = process.env;
 
-assert(HOST, 'HOST is not defined');
-assert(PORT, 'PORT is not defined');
-assert(BASE_PATH, 'BASE_PATH is not defined');
+assert(DEV_HOST, 'DEV_HOST is not defined');
+assert(DEV_PORT, 'DEV_PORT is not defined');
+assert(DEV_BASE_PATH, 'DEV_BASE_PATH is not defined');
 
 const oAuthConfig: OAuthClientServiceOptions = {};
 
@@ -24,7 +24,7 @@ if (OAUTH_LOCALES) oAuthConfig.locales = OAUTH_LOCALES;
 if (OAUTH_PDS_ENTRYWAY) oAuthConfig.entryway = OAUTH_PDS_ENTRYWAY;
 
 export default defineConfig({
-  base: `${BASE_PATH}/`,
+  base: `${DEV_BASE_PATH}/`,
   plugins: [react()],
   resolve: {
     alias: {
@@ -33,9 +33,9 @@ export default defineConfig({
   },
   server: {
     allowedHosts: true,
-    port: PORT ? parseInt(PORT) : 3001,
+    port: DEV_PORT ? parseInt(DEV_PORT) : 3001,
     proxy: {
-      [`${BASE_PATH}/client-metadata.json`]: {
+      [`${DEV_BASE_PATH}/client-metadata.json`]: {
         target: '', // mock target shouldn't be hit
         bypass: (_req: IncomingMessage, res: ServerResponse) => {
           res?.writeHead(200, { 'Content-Type': 'application/json' });
