@@ -102,7 +102,7 @@ function Playground() {
             >
               GitHub
             </Button>
-            <Badge className="ml-2">{VITE_APP_VERSION}</Badge>
+            <Badge className="ml-2">v{VITE_APP_VERSION}</Badge>
             <div className='flex-1'></div>
             {profile && (
               <div>
