@@ -11,16 +11,12 @@ const {
   LOCAL_BASE_PATH,
   OAUTH_LOCALES,
   OAUTH_PDS_ENTRYWAY,
-  OAUTH_CLIENT_METADATA_CLIENT_NAME,
   OAUTH_CLIENT_METADATA_CLIENT_URI,
   NODE_ENV,
 } = process.env;
 
 if (NODE_ENV === 'development') {
-  assert(LOCAL_DEV_PORT, 'LOCAL_DEV_PORT is not defined');
-
-  // Metadata checks needed by dev server to serve client metadata (preview servers serve /dist)
-  assert(OAUTH_CLIENT_METADATA_CLIENT_NAME, 'OAUTH_CLIENT_METADATA_CLIENT_NAME not defined');
+  // Required by client-metadata.json proxy endpoint because dev server does not use output of scripts/export-client-metadata
   assert(OAUTH_CLIENT_METADATA_CLIENT_URI, 'OAUTH_CLIENT_METADATA_CLIENT_URI not defined');
 }
 
