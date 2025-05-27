@@ -2,7 +2,7 @@ import path from 'path';
 import react from '@vitejs/plugin-react';
 import { ServerOptions, defineConfig } from 'vite';
 import assert from 'assert';
-import clientMetadata from './client-metadata';
+import clientMetadata from './build/client-metadata';
 import { IncomingMessage, ServerResponse } from 'http';
 import type { OAuthClientServiceOptions } from './src/services/OAuthClient';
 
