@@ -5,17 +5,19 @@ import assert from 'assert';
 import clientMetadata from '@/build/client-metadata';
 import { IncomingMessage, ServerResponse } from 'http';
 import type { OAuthClientServiceOptions } from '@/src/services/OAuthClient';
+import { ensureSingleLeadingSlash, ensureSingleTrailingSlash } from './build/utils';
 
-const {
-  LOCAL_DEV_PORT,
-  LOCAL_BASE_PATH,
-  OAUTH_LOCALES,
-  OAUTH_PDS_ENTRYWAY,
-  NODE_ENV,
-} = process.env;
+const { LOCAL_DEV_PORT, LOCAL_BASE_PATH, OAUTH_LOCALES, OAUTH_PDS_ENTRYWAY, NODE_ENV } =
+  process.env;
 
-if (NODE_ENV === 'development' || NODE_ENV === 'preview')
+let basePath = '';
+
+if (NODE_ENV === 'development' || NODE_ENV === 'preview') {
   assert(LOCAL_BASE_PATH, 'LOCAL_BASE_PATH is not defined');
+
+  basePath = ensureSingleLeadingSlash(LOCAL_BASE_PATH);
+  basePath = ensureSingleTrailingSlash(LOCAL_BASE_PATH);
+}
 
 const oAuthConfig: OAuthClientServiceOptions = {};
 
@@ -24,7 +26,7 @@ if (OAUTH_PDS_ENTRYWAY) oAuthConfig.entryway = OAUTH_PDS_ENTRYWAY;
 
 export default defineConfig({
   // required for dev server and preview server
-  base: `${LOCAL_BASE_PATH}/`,
+  base: basePath,
   plugins: [react()],
   resolve: {
     alias: {
@@ -37,7 +39,7 @@ export default defineConfig({
     port: LOCAL_DEV_PORT ? parseInt(LOCAL_DEV_PORT) : 3001,
     // required for dev server to serve oauth client metadata
     proxy: {
-      [`${LOCAL_BASE_PATH}/client-metadata.json`]: {
+      [`${basePath}client-metadata.json`]: {
         target: '', // mock target shouldn't be hit
         bypass: (_req: IncomingMessage, res: ServerResponse) => {
           res?.writeHead(200, { 'Content-Type': 'application/json' });
