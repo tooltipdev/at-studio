@@ -28,12 +28,8 @@ export default class OAuthClient {
   };
 
   constructor(clientMetadata: OAuthClientMetadataInput, options: OAuthClientServiceOptions = {}) {
-    const handleResolver = OAuthClient.parseHandleResolver(options);
-
-    if (!handleResolver) throw new Error('No handleResolver found');
-
     this.options = options;
-    this.handleResolver = handleResolver;
+    this.handleResolver = OAuthClient.parseHandleResolver(options);
     this.browserOAuthClient = new BrowserOAuthClient({
       clientMetadata,
       handleResolver: this.handleResolver,
@@ -43,9 +39,8 @@ export default class OAuthClient {
   static parseHandleResolver(options: OAuthClientServiceOptions) {
     let handleResolver: string | undefined;
 
-    if (options.entryway) {
-      handleResolver = options.entryway;
-    }
+    if (options.entryway) handleResolver = options.entryway;
+    if (!handleResolver) handleResolver = 'https://bsky.social';
 
     return handleResolver;
   }
