@@ -1,4 +1,5 @@
 import assert from "assert";
+import { ensureSingleTrailingSlash } from "./utils";
 
 const {
   OAUTH_CLIENT_METADATA_CLIENT_NAME,
@@ -18,10 +19,12 @@ const redirectUris = OAUTH_CLIENT_METADATA_REDIRECT_URIS_CSV
   ? OAUTH_CLIENT_METADATA_REDIRECT_URIS_CSV.split(',').map((uri) => uri.trim())
   : [OAUTH_CLIENT_METADATA_CLIENT_URI];
 
+const clientUri = ensureSingleTrailingSlash(OAUTH_CLIENT_METADATA_CLIENT_URI)
+
 export default {
   client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME || 'OAuth Playground: Local Development Server',
-  client_id: `${OAUTH_CLIENT_METADATA_CLIENT_URI}client-metadata.json`,
-  client_uri: OAUTH_CLIENT_METADATA_CLIENT_URI,
+  client_id: `${clientUri}client-metadata.json`,
+  client_uri: clientUri,
   logo_uri: OAUTH_CLIENT_METADATA_LOGO_URI || '',
   redirect_uris: redirectUris,
   scope: OAUTH_CLIENT_METADATA_SCOPES || 'atproto transition:generic',
