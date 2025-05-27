@@ -1,6 +1,6 @@
 const {
   OAUTH_CLIENT_METADATA_CLIENT_NAME,
-  OAUTH_CLIENT_METADATA_AVATAR_URI,
+  OAUTH_CLIENT_METADATA_LOGO_URI,
   OAUTH_CLIENT_METADATA_GRANT_TYPES_CSV,
   OAUTH_CLIENT_METADATA_SCOPES,
   OAUTH_CLIENT_METADATA_REDIRECT_URIS_CSV,
@@ -15,10 +15,10 @@ const redirectUris = OAUTH_CLIENT_METADATA_REDIRECT_URIS_CSV
   : [OAUTH_CLIENT_METADATA_CLIENT_URI];
 
 export default {
-  client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME,
+  client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME || 'OAuth Playground: Local Development Server',
   client_id: `${OAUTH_CLIENT_METADATA_CLIENT_URI}client-metadata.json`,
   client_uri: OAUTH_CLIENT_METADATA_CLIENT_URI,
-  logo_uri: OAUTH_CLIENT_METADATA_AVATAR_URI || '',
+  logo_uri: OAUTH_CLIENT_METADATA_LOGO_URI || '',
   redirect_uris: redirectUris,
   scope: OAUTH_CLIENT_METADATA_SCOPES || 'atproto transition:generic',
   grant_types: grantTypes,
