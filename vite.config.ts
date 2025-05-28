@@ -2,9 +2,9 @@ import path from 'path';
 import react from '@vitejs/plugin-react';
 import { ServerOptions, defineConfig } from 'vite';
 import assert from 'assert';
-import clientMetadata from '@/build/client-metadata';
+import clientMetadata from './build/client-metadata';
 import { IncomingMessage, ServerResponse } from 'http';
-import type { OAuthClientServiceOptions } from '@/src/services/OAuthClient';
+import type { OAuthClientServiceOptions } from './src/services/OAuthClient';
 import { ensureSingleLeadingSlash, ensureSingleTrailingSlash } from './build/utils';
 
 const { LOCAL_DEV_PORT, LOCAL_BASE_PATH, OAUTH_LOCALES, OAUTH_PDS_ENTRYWAY, NODE_ENV } =
@@ -30,7 +30,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src')
     },
   },
   server: {

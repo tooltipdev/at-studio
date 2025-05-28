@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 // Import client metadata (assuming client-metadata.ts exports an object)
-import clientMetadata from '@/build/client-metadata';
+import clientMetadata from '../../client-metadata';
 
 // Define the output path
 const outputFilePath = process.cwd() + '/dist/client-metadata.json';
