@@ -25,7 +25,7 @@ export default {
   client_name: OAUTH_CLIENT_METADATA_CLIENT_NAME || 'OAuth Playground: Local Development Server',
   client_id: `${clientUri}client-metadata.json`,
   client_uri: clientUri,
-  logo_uri: OAUTH_CLIENT_METADATA_LOGO_URI || '',
+  logo_uri: OAUTH_CLIENT_METADATA_LOGO_URI || undefined,
   redirect_uris: redirectUris,
   scope: OAUTH_CLIENT_METADATA_SCOPES || 'atproto transition:generic',
   grant_types: grantTypes,
