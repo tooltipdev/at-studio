@@ -33,7 +33,7 @@ function Playground() {
   >>(null);
 
   useEffect(() => {
-    if (client && client.isAuthenticated && !profile) {
+    if (client?.isAuthenticated) {
       (async () => {
         const agent = new Agent(await client!.refresh());
         const userProfile = await agent.getProfile({ actor: client!.sub });
@@ -45,7 +45,7 @@ function Playground() {
     } else {
       setProfile(null);
     }
-  }, [client?.isAuthenticated]);
+  }, [client]);
 
   return (
     <div className="h-screen flex flex-col items-center">
