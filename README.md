@@ -32,7 +32,7 @@
   - Format: `${your local tunnel URI}${LOCAL_BASE_PATH}/`
 - Run the preview command
   - Execute `npm run preview`
-  - Internally runs `npm run build`
+  - Internally runs `npm run build:dev`
   - Launches the Vite preview server
   - Runs on port `4173`
 - Access the app via the value of `OAUTH_CLIENT_METADATA_CLIENT_URI`
@@ -41,7 +41,8 @@
 
 - Set the `OAUTH_CLIENT_METADATA_CLIENT_URI` variable
 - Run the build command
-  - Execute `npm run build`
+  - With `.env`: Execute `npm run build:dev`
+  - With exported env vars (prod): `npm run build`
   - Generates output JavaScript
   - Produces the `client-metadata.json` file
 - Build output is saved to the `/dist` directory
