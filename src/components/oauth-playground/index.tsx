@@ -20,7 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/shadcn/dialog';
 import { Button } from '../shadcn/button';
 import { Badge } from '../shadcn/badge';
 

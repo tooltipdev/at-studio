@@ -5,7 +5,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/shadcn/card';
+} from '@/components/shadcn/card';
 import { useContext, useState } from 'react';
 import MethodSelect from './method-select';
 import schemaMap from '@/services/bsky-sdk/lexicon-zod-schemas';

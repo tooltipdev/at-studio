@@ -7,17 +7,17 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from '@/components/ui/shadcn/table';
+} from '@/components/shadcn/table';
 
 ('use client');
 
 import * as React from 'react';
 import { ChevronsUpDown } from 'lucide-react';
 
-import { Button } from '@/components/ui/shadcn/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/shadcn/collapsible';
+import { Button } from '@/components/shadcn/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/shadcn/collapsible';
 
-import { ScrollArea, ScrollBar } from '@/components/ui/shadcn/scroll-area';
+import { ScrollArea, ScrollBar } from '@/components/shadcn/scroll-area';
 
 const altBg = 'bg-slate-100';
 

@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { ZodObject, ZodType } from 'zod';
-import { Button } from '@/components/ui/shadcn/button';
-import { Form } from '@/components/ui/shadcn/form';
+import { Button } from '@/components/shadcn/button';
+import { Form } from '@/components/shadcn/form';
 import schemaMap from '@/services/bsky-sdk/lexicon-zod-schemas';
 import OAuthClient from '@/services/OAuthClient';
 import { Agent } from '@atproto/api';
@@ -12,7 +12,7 @@ import { Separator } from '../../shadcn/separator';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { ScrollBar } from '../../shadcn/scroll-area';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shadcn/tabs';
 
 import ObjectFormField from './object-form-field';
 import SDKMethodProxy from '@/services/bsky-sdk/method-proxy';
