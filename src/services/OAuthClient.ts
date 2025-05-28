@@ -5,27 +5,44 @@ import {
   OAuthSession,
 } from '@atproto/oauth-client-browser';
 
-export const OAUTH_CLIENT_METADATA = __OAUTH_CLIENT_METADATA__ as OAuthClientMetadataInput;
-export const BSKY_PDS_ENTRYWAY = 'https://bsky.social';
+export type OAuthClientServiceOptions = {
+  entryway?: string;
+  locales?: string;
+};
+
 export default class OAuthClient {
   browserOAuthClient: BrowserOAuthClient;
   authenticatedUserSub: Did | undefined;
+  options: OAuthClientServiceOptions;
+  handleResolver: string;
   events = {
     handlers: {} as { [key: string]: Array<() => void | Promise<void>> },
     on(t: string, cb: () => void | Promise<void>) {
-      !this.handlers[t] && (this.handlers[t] = []);
+      if (!this.handlers[t]) this.handlers[t] = [];
+
       this.handlers[t].push(cb);
     },
     emit(t: string) {
-      this.handlers[t]?.length && this.handlers[t].forEach((h) => h());
+      if (this.handlers[t]?.length) this.handlers[t].forEach((h) => h());
     },
   };
 
-  constructor() {
+  constructor(clientMetadata: OAuthClientMetadataInput, options: OAuthClientServiceOptions = {}) {
+    this.options = options;
+    this.handleResolver = OAuthClient.parseHandleResolver(options);
     this.browserOAuthClient = new BrowserOAuthClient({
-      clientMetadata: OAUTH_CLIENT_METADATA,
-      handleResolver: BSKY_PDS_ENTRYWAY,
+      clientMetadata,
+      handleResolver: this.handleResolver,
     });
+  }
+
+  static parseHandleResolver(options: OAuthClientServiceOptions) {
+    let handleResolver: string | undefined;
+
+    if (options.entryway) handleResolver = options.entryway;
+    if (!handleResolver) handleResolver = 'https://bsky.social';
+
+    return handleResolver;
   }
 
   async init() {
@@ -58,9 +75,9 @@ export default class OAuthClient {
   }
 
   async signIn() {
-    return this.browserOAuthClient.signIn(BSKY_PDS_ENTRYWAY, {
+    return this.browserOAuthClient.signIn(this.handleResolver, {
       state: `${Date.now()}`,
-      ui_locales: 'fr-CA fr en',
+      ...(this.options.locales ? { ui_locales: this.options.locales } : {}),
     });
   }
 

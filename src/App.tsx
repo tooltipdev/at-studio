@@ -1,6 +1,6 @@
 import './App.css';
 import Playground from './components/ui/oauth-playground';
-import OAuthClientProvider from './contexts/oauth';
+import OAuthClientProvider from './contexts/oauth-provider';
 
 function App() {
   return (

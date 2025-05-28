@@ -2,27 +2,44 @@ import path from 'path';
 import react from '@vitejs/plugin-react';
 import { ServerOptions, defineConfig } from 'vite';
 import assert from 'assert';
-import clientMetadata from './client-metadata';
+import clientMetadata from './build/client-metadata';
 import { IncomingMessage, ServerResponse } from 'http';
+import type { OAuthClientServiceOptions } from './src/services/OAuthClient';
+import { ensureSingleLeadingSlash, ensureSingleTrailingSlash } from './build/utils';
 
-const { HOST, PORT } = process.env;
+const { LOCAL_DEV_PORT, LOCAL_BASE_PATH, OAUTH_LOCALES, OAUTH_PDS_ENTRYWAY, NODE_ENV } =
+  process.env;
 
-assert(HOST, 'HOST is not defined');
+let basePath = '';
+
+if (NODE_ENV === 'development' || NODE_ENV === 'preview') {
+  assert(LOCAL_BASE_PATH, 'LOCAL_BASE_PATH is not defined');
+
+  basePath = ensureSingleLeadingSlash(LOCAL_BASE_PATH);
+  basePath = ensureSingleTrailingSlash(LOCAL_BASE_PATH);
+}
+
+const oAuthConfig: OAuthClientServiceOptions = {};
+
+if (OAUTH_LOCALES) oAuthConfig.locales = OAUTH_LOCALES;
+if (OAUTH_PDS_ENTRYWAY) oAuthConfig.entryway = OAUTH_PDS_ENTRYWAY;
 
 export default defineConfig({
-  base: '/bsky-oauth-playground/',
+  // required for dev server and preview server
+  base: basePath,
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src')
     },
   },
   server: {
     allowedHosts: true,
-    port: PORT ? parseInt(PORT): 3001,
+    // required for dev server (preview server runs on 4173)
+    port: LOCAL_DEV_PORT ? parseInt(LOCAL_DEV_PORT) : 3001,
+    // required for dev server to serve oauth client metadata
     proxy: {
-      // Serve dynamic OAuth client metadata from local dev environment
-      '/bsky-oauth-playground/client-metadata.json': {
+      [`${basePath}client-metadata.json`]: {
         target: '', // mock target shouldn't be hit
         bypass: (_req: IncomingMessage, res: ServerResponse) => {
           res?.writeHead(200, { 'Content-Type': 'application/json' });
@@ -31,9 +48,10 @@ export default defineConfig({
         },
       },
     },
-  } as unknown as ServerOptions,
+  } as ServerOptions,
+  // Export configuration objects for local/preview servers and /dist build process
   define: {
-    // Attach dynamic OAuth client metadata to vite runtime
     __OAUTH_CLIENT_METADATA__: clientMetadata,
+    __OAUTH_CONFIG__: oAuthConfig,
   },
 });
