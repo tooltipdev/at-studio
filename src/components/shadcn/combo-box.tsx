@@ -40,7 +40,7 @@ export function ComboBox({ options, optionLabel, onSelect }: {
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
+            <PopoverContent className="p-0">
                 <Command>
                     <CommandInput placeholder={`Search for ${optionLabel}`}  />
                     <CommandList>
@@ -58,7 +58,7 @@ export function ComboBox({ options, optionLabel, onSelect }: {
                                 >
                                     <Check
                                         className={cn(
-                                            "mr-2 h-4 w-4",
+                                            "mr-2 h-4",
                                             value === option.value ? "opacity-100" : "opacity-0"
                                         )}
                                     />
