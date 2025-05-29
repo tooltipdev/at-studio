@@ -19,8 +19,6 @@ import {
   CollapsibleTrigger,
 } from '@/components/shadcn/collapsible';
 
-import { ScrollArea, ScrollBar } from '@/components/shadcn/scroll-area';
-
 const altBg = 'bg-slate-100';
 
 function parseValueToDisplayValue(val: unknown) {
@@ -38,39 +36,6 @@ function getComponentForType(val: unknown) {
   if (typeof val === 'object') return <DataTable data={val as { [key: string]: unknown }} />;
 
   return parseValueToDisplayValue(val);
-}
-
-function CollapsibleDataSet({ elements }: { elements: unknown[] }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen} className="">
-      <div className="flex items-center space-x-4">
-        <CollapsibleTrigger asChild disabled={elements.length ? false : true}>
-          <Button variant="ghost" size="sm">
-            <ChevronsUpDown className="h-4 w-4" />
-            <span className="sr-only">Toggle</span>
-          </Button>
-        </CollapsibleTrigger>
-        <h4 className={`text-sm font-semibold ${elements.length ? '' : 'text-gray-400'} pr-4`}>
-          {elements.length} elements
-        </h4>
-      </div>
-      <CollapsibleContent className="">
-        <ScrollArea className="overflow-auto">
-          {elements.map((e, i) => {
-            return (
-              <div className={`p-2 font-mono text-sm ${i % 2 ? altBg : ''}`}>
-                {getComponentForType(e)}
-              </div>
-            );
-          })}
-          <ScrollBar orientation="horizontal" />
-          <ScrollBar orientation="vertical" />
-        </ScrollArea>
-      </CollapsibleContent>
-    </Collapsible>
-  );
 }
 
 function generateColor(index: number): string {
@@ -137,6 +102,36 @@ function buildUniqueColorMap(flattenedKeys: string[]): Map<string, string> {
   });
 
   return colorMap;
+}
+
+function CollapsibleDataSet({ elements }: { elements: unknown[] }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen} className="">
+      <div className="flex items-center space-x-4">
+        <CollapsibleTrigger asChild disabled={elements.length ? false : true}>
+          <Button variant="ghost" size="sm">
+            <ChevronsUpDown className="h-4 w-4" />
+            <span className="sr-only">Toggle</span>
+          </Button>
+        </CollapsibleTrigger>
+        <h4 className={`text-sm font-semibold ${elements.length ? '' : 'text-gray-400'} pr-4`}>
+          {elements.length} element(s)
+        </h4>
+      </div>
+      <CollapsibleContent className="">
+        {elements.map((e, i) => {
+          return (
+            <div className={`p-2 text-sm ${i % 2 ? altBg : ''}`}>
+              <p className="border-x border-t p-2 text-sm font-semibold">element {i}</p>
+              {getComponentForType(e)}
+            </div>
+          );
+        })}
+      </CollapsibleContent>
+    </Collapsible>
+  );
 }
 
 function DataTable({
