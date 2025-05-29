@@ -28,7 +28,7 @@ function SDKFormResponse({ res, err }: { res?: any; err?: Error | string | any }
         </ScrollArea>
       )}
       {!err && res && (
-        <Tabs defaultValue="table" className="w-full">
+        <Tabs defaultValue="table" className="max-w-[1140px]">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="table">Table</TabsTrigger>
             <TabsTrigger value="json">JSON</TabsTrigger>
