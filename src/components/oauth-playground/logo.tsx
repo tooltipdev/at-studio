@@ -15,7 +15,7 @@ function Logo({ size }: { size: 'sm' | 'md' | 'lg' }) {
   return (
     <>
       <p className={`${textSize} font-light`}>
-        <span className="text-[#3b82f6] font-semibold">AT</span>Studio
+        <span className="text-[#3b82f6] font-semibold">@AT</span>Studio
       </p>
     </>
   );
