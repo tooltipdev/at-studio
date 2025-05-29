@@ -13,7 +13,7 @@ import { Agent } from '@atproto/api';
 import OAuthClient from '@/services/OAuthClient';
 import AboutDialog from './about-dialog';
 
-const { VITE_GITHUB_LINK } = process.env;
+const { VITE_GITHUB_LINK } = import.meta.env;
 
 function ProfileDropdown({
   profile,
