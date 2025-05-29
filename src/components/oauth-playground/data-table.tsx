@@ -9,19 +9,31 @@ import {
   TableCell,
 } from '@/components/shadcn/table';
 
-('use client');
-
 import * as React from 'react';
 import { ChevronsUpDown } from 'lucide-react';
 
 import { Button } from '@/components/shadcn/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/shadcn/collapsible';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/shadcn/collapsible';
 
 import { ScrollArea, ScrollBar } from '@/components/shadcn/scroll-area';
 
 const altBg = 'bg-slate-100';
 
-function CollapsibleDataSet({ elements }: { elements: any[] }) {
+function parseValueToDisplayValue(val: unknown) {
+  switch (typeof val) {
+    case 'number':
+    case 'string':
+      return val;
+    default:
+      return JSON.stringify(val);
+  }
+}
+
+function CollapsibleDataSet({ elements }: { elements: unknown[] }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -38,10 +50,11 @@ function CollapsibleDataSet({ elements }: { elements: any[] }) {
       <CollapsibleContent className="space-y-2">
         <ScrollArea className="max-h-[400px] w-[400px] overflow-auto whitespace-nowrap rounded-md border p-2">
           {elements.map((e, i) => {
-            const parsedData = JSON.stringify(e)
-            return <div className={`p-2 font-mono text-sm ${i % 2 ? altBg : ''}`}>
-              {typeof parsedData === typeof e ? e : parsedData}
-            </div>;
+            return (
+              <div className={`p-2 font-mono text-sm ${i % 2 ? altBg : ''}`}>
+                {parseValueToDisplayValue(e)}
+              </div>
+            );
           })}
           <ScrollBar orientation="horizontal" />
           <ScrollBar orientation="vertical" />
@@ -56,7 +69,7 @@ function DataTable({
   header,
   description,
 }: {
-  data: { [key: string]: any };
+  data: { [key: string]: unknown };
   header?: string[];
   description?: string;
 }) {
@@ -72,25 +85,23 @@ function DataTable({
           ))}
       </TableHeader>
       <TableBody>
-        {Object.entries(flatten(data, { safe: true }) as { [key: string]: any }).map(
+        {Object.entries(flatten(data, { safe: true }) as { [key: string]: unknown }).map(
           ([k, v], i) => {
-              const parsedData = JSON.stringify(v)
             return (
-                <TableRow>
-                  <TableCell className="border-r text-center font-medium">{k}</TableCell>
-                  <TableCell className={i % 2 ? altBg : ''}>
-                    {Array.isArray(v) ? (
-                      <CollapsibleDataSet elements={v} />
-                    ) : (
-                      <ScrollArea>
-                          {typeof parsedData === typeof v ? v : parsedData}
-            
-                        <ScrollBar orientation="horizontal" />
-                      </ScrollArea>
-                    )}
-                  </TableCell>
-                </TableRow>
-              )
+              <TableRow>
+                <TableCell className="border-r text-center font-medium">{k}</TableCell>
+                <TableCell className={i % 2 ? altBg : ''}>
+                  {Array.isArray(v) ? (
+                    <CollapsibleDataSet elements={v} />
+                  ) : (
+                    <ScrollArea>
+                      {parseValueToDisplayValue(v)}
+                      <ScrollBar orientation="horizontal" />
+                    </ScrollArea>
+                  )}
+                </TableCell>
+              </TableRow>
+            );
           }
         )}
       </TableBody>
