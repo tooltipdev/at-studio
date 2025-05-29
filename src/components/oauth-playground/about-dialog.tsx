@@ -20,7 +20,7 @@ function AboutDialog() {
           <DialogTitle>About ATStudio</DialogTitle>
           <DialogDescription>@ATProtocol Utilitly Client</DialogDescription>
           <p>
-            ATStudio provides an easy to use interface to interact with the{' '}
+            ATStudio provides easy to use interfaces for quickly interacting with the{' '}
             <a className="underline" href="https://atproto.com/">
               @ATProtocol
             </a>
