@@ -73,6 +73,15 @@ function DataTable({
   header?: string[];
   description?: string;
 }) {
+  const getComponentForType = (val: unknown) => {
+    if (Array.isArray(val)) return <CollapsibleDataSet elements={val} />;
+    if (typeof val === 'object') return <DataTable data={val as { [key: string]: unknown }} />;
+
+    return (
+        parseValueToDisplayValue(val)
+    );
+  };
+
   return (
     <Table className="border">
       {description && <TableCaption>{description}</TableCaption>}
@@ -90,16 +99,7 @@ function DataTable({
             return (
               <TableRow>
                 <TableCell className="border-r text-center font-medium">{k}</TableCell>
-                <TableCell className={i % 2 ? altBg : ''}>
-                  {Array.isArray(v) ? (
-                    <CollapsibleDataSet elements={v} />
-                  ) : (
-                    <ScrollArea>
-                      {parseValueToDisplayValue(v)}
-                      <ScrollBar orientation="horizontal" />
-                    </ScrollArea>
-                  )}
-                </TableCell>
+                <TableCell className={i % 2 ? altBg : ''}>{getComponentForType(v)}</TableCell>
               </TableRow>
             );
           }
