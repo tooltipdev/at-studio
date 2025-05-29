@@ -37,27 +37,25 @@ function getComponentForType(val: unknown) {
   if (Array.isArray(val)) return <CollapsibleDataSet elements={val} />;
   if (typeof val === 'object') return <DataTable data={val as { [key: string]: unknown }} />;
 
-  return (
-      parseValueToDisplayValue(val)
-  );
-};
+  return parseValueToDisplayValue(val);
+}
 
 function CollapsibleDataSet({ elements }: { elements: unknown[] }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className="space-y-2">
-      <div className="flex items-center justify-between space-x-4 px-4">
-        <h4 className="text-sm font-semibold">{elements.length} elements</h4>
+      <div className="flex items-center space-x-4">
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="sm">
             <ChevronsUpDown className="h-4 w-4" />
             <span className="sr-only">Toggle</span>
           </Button>
         </CollapsibleTrigger>
+        <h4 className="text-sm font-semibold">{elements.length} elements</h4>
       </div>
       <CollapsibleContent className="space-y-2">
-        <ScrollArea className="overflow-auto whitespace-nowrap rounded-md border p-2">
+        <ScrollArea className="overflow-auto">
           {elements.map((e, i) => {
             return (
               <div className={`p-2 font-mono text-sm ${i % 2 ? altBg : ''}`}>
@@ -94,16 +92,18 @@ function DataTable({
           ))}
       </TableHeader>
       <TableBody>
-        {Object.entries(flatten(JSON.parse(JSON.stringify(data)), { maxDepth: 3, safe: true }) as { [key: string]: unknown }).map(
-          ([k, v], i) => {
-            return (
-              <TableRow>
-                <TableCell className="border-r text-left font-medium bg-gray-50">{k}</TableCell>
-                <TableCell className={i % 2 ? altBg : ''}>{getComponentForType(v)}</TableCell>
-              </TableRow>
-            );
+        {Object.entries(
+          flatten(JSON.parse(JSON.stringify(data)), { maxDepth: 3, safe: true }) as {
+            [key: string]: unknown;
           }
-        )}
+        ).map(([k, v], i) => {
+          return (
+            <TableRow>
+              <TableCell className="border-r text-left font-medium bg-gray-50">{k}</TableCell>
+              <TableCell className={i % 2 ? altBg : ''}>{getComponentForType(v)}</TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );
