@@ -98,7 +98,7 @@ function DataTable({
           ([k, v], i) => {
             return (
               <TableRow>
-                <TableCell className="border-r text-center font-medium">{k}</TableCell>
+                <TableCell className="border-r text-left font-medium bg-gray-50">{k}</TableCell>
                 <TableCell className={i % 2 ? altBg : ''}>{getComponentForType(v)}</TableCell>
               </TableRow>
             );
