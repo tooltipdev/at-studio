@@ -20,7 +20,7 @@ function SDKDashboard() {
     client && (
       <>
         {client.isAuthenticated && (
-          <Card className="max-w-[100vw]">
+          <Card className="max-w-[1140px]">
             <CardHeader>
               {method && <CardTitle className="text-center">{method}</CardTitle>}
               <CardDescription></CardDescription>
