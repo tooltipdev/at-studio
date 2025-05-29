@@ -22,17 +22,28 @@ function SDKDashboard() {
         {client.isAuthenticated && (
           <Card className="max-w-[1140px]">
             <CardHeader>
-              {method && <CardTitle className="text-center">{method}</CardTitle>}
-              <CardDescription></CardDescription>
+              <CardTitle className="text-center">
+                {method ? method : 'Select an SDK Method'}
+              </CardTitle>
             </CardHeader>
-            <CardContent>
-              {method ? (
+            <CardContent className="flex-col">
+              {!method && (
+                <ul className="ml-6 list-disc [&>li]:mb-2 text-sm">
+                  <li>Select an ATProtocol SDK method</li>
+                  <li>Fill out the provided form</li>
+                  <li>Submit form to execute SDK method</li>
+                </ul>
+              )}
+
+              {method && (
                 <SDKForm onCancel={() => setMethod(null)} method={method} client={client!} />
-              ) : (
-                <MethodSelect onSelect={(s: string) => setMethod(s as keyof typeof schemaMap)} />
               )}
             </CardContent>
-            <CardFooter></CardFooter>
+            <CardFooter className="flex-col">
+              {!method && (
+                <MethodSelect onSelect={(s: string) => setMethod(s as keyof typeof schemaMap)} />
+              )}
+            </CardFooter>
           </Card>
         )}
       </>
