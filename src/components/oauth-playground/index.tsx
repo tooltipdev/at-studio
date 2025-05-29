@@ -1,6 +1,6 @@
 import { OAuthClientContext } from '@/contexts/oauth';
 import { useContext, useEffect, useState } from 'react';
-import Logo from '../shadcn/logo';
+import Logo from './logo';
 import AuthButton from './auth-button';
 import SDKDashboard from './sdk-dashboard';
 import { Agent } from '@atproto/api';
