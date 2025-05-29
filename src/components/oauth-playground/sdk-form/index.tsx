@@ -111,7 +111,9 @@ function SDKForm({
         onSubmit={form.handleSubmit(onSubmit, console.log)}
         className="space-y-8"
       >
-        <ObjectFormField form={form} schema={schema as WrappedZodType<ZodObject<any>>} path="" />
+        <div className="max-w-[500px]">
+          <ObjectFormField form={form} schema={schema as WrappedZodType<ZodObject<any>>} path="" />
+        </div>
         <div className="flex space-x-2">
           <Button variant="outline" onClick={onCancel}>
             Back
