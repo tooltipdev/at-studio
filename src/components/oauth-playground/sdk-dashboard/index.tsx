@@ -21,7 +21,7 @@ function SDKDashboard() {
       <>
         <h1 className="text-center text-lg pb-2.5 font-normal">bsky OAuth Playground</h1>
         {client.isAuthenticated && (
-          <Card className="max-w-[80vw]">
+          <Card className="max-w-[100vw]">
             <CardHeader>
               {method && <CardTitle className="text-center">{method}</CardTitle>}
               <CardDescription></CardDescription>
