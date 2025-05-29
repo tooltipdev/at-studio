@@ -10,6 +10,7 @@ env:
   OAUTH_LOCALES: ${{ vars.OAUTH_LOCALES }}
   OAUTH_PDS_ENTRYWAY: ${{ vars.OAUTH_PDS_ENTRYWAY }}
   VITE_APP_VERSION: ${{ vars.VITE_APP_VERSION }}
+  VITE_GITHUB_LINK: ${{ vars.VITE_GITHUB_LINK }}
 
 jobs:
   build:
