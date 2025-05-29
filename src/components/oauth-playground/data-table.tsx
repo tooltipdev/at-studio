@@ -46,7 +46,7 @@ function CollapsibleDataSet({ elements }: { elements: unknown[] }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-[400px] space-y-2">
+    <Collapsible open={isOpen} onOpenChange={setIsOpen} className="space-y-2">
       <div className="flex items-center justify-between space-x-4 px-4">
         <h4 className="text-sm font-semibold">{elements.length} elements</h4>
         <CollapsibleTrigger asChild>
@@ -57,7 +57,7 @@ function CollapsibleDataSet({ elements }: { elements: unknown[] }) {
         </CollapsibleTrigger>
       </div>
       <CollapsibleContent className="space-y-2">
-        <ScrollArea className="max-h-[400px] w-[400px] overflow-auto whitespace-nowrap rounded-md border p-2">
+        <ScrollArea className="overflow-auto whitespace-nowrap rounded-md border p-2">
           {elements.map((e, i) => {
             return (
               <div className={`p-2 font-mono text-sm ${i % 2 ? altBg : ''}`}>
