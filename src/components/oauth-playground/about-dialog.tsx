@@ -7,6 +7,7 @@ import {
   DialogTrigger,
 } from '@/components/shadcn/dialog';
 import { Button } from '../shadcn/button';
+import BulletList from './bullet-list';
 
 function AboutDialog() {
   return (
@@ -17,36 +18,46 @@ function AboutDialog() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>About ATStudio</DialogTitle>
-          <br />
-          <br />
-          <DialogDescription>
-            This web app lets you easily experiment with the
+          <DialogDescription>@ATProtocol Utilitly Client</DialogDescription>
+          <p>
+            ATStudio provides an easy to use interface to interact with the{' '}
             <a className="underline" href="https://atproto.com/">
               @ATProtocol
             </a>
-            via the
-            <a
-              className="underline"
-              href="https://www.npmjs.com/package/@atproto/oauth-client-browser"
-            >
-              browser client SDK implementation
-            </a>
             .
-            <br />
-            <br />
-            Currently, only
-            <a className="underline" href="https://bsky.social">
-              bsky.social
-            </a>
-            instances are supported, but other PDS's and entryways will be supported in the future.
-            <br />
-            <br />
-            Sign in with you
-            <a className="underline" href="https://bsky.app/">
-              bsky.app
-            </a>
-            account to interact with the protocol.
-          </DialogDescription>
+          </p>
+          <br />
+          <BulletList>
+            <li>
+              Connect your{' '}
+              <a className="underline" href="https://bsky.social">
+                bsky.social
+              </a>{' '}
+              account
+            </li>
+            <li>
+              Execute{' '}
+              <a
+                className="underline"
+                href="https://www.npmjs.com/package/@atproto/oauth-client-browser"
+              >
+                @ATProtocol SDK
+              </a>{' '}
+              methods
+            </li>
+            <li>Learn about the @ATProtocol</li>
+            <li>Test/debug @ATProtocol code paths</li>
+          </BulletList>
+          <h1 className="mt-8 scroll-m-20 font-semibold tracking-tight">Limitations</h1>
+          <p>
+            Currently, only the{' '}
+            <a className="underline" href="https://docs.bsky.app/docs/advanced-guides/entryway">
+              bsky.social PDS Entryway
+            </a>{' '}
+            is supported, but self custodial PDSes will be supported in the near future.
+          </p>
+          <h1 className="mt-8 scroll-m-20 font-semibold tracking-tight">Disclaimer</h1>
+          <p>This is an experimental application. Use at your own risk.</p>
         </DialogHeader>
       </DialogContent>
     </Dialog>
