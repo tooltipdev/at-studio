@@ -33,6 +33,15 @@ function parseValueToDisplayValue(val: unknown) {
   }
 }
 
+function getComponentForType(val: unknown) {
+  if (Array.isArray(val)) return <CollapsibleDataSet elements={val} />;
+  if (typeof val === 'object') return <DataTable data={val as { [key: string]: unknown }} />;
+
+  return (
+      parseValueToDisplayValue(val)
+  );
+};
+
 function CollapsibleDataSet({ elements }: { elements: unknown[] }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -52,7 +61,7 @@ function CollapsibleDataSet({ elements }: { elements: unknown[] }) {
           {elements.map((e, i) => {
             return (
               <div className={`p-2 font-mono text-sm ${i % 2 ? altBg : ''}`}>
-                {parseValueToDisplayValue(e)}
+                {getComponentForType(e)}
               </div>
             );
           })}
@@ -73,15 +82,6 @@ function DataTable({
   header?: string[];
   description?: string;
 }) {
-  const getComponentForType = (val: unknown) => {
-    if (Array.isArray(val)) return <CollapsibleDataSet elements={val} />;
-    if (typeof val === 'object') return <DataTable data={val as { [key: string]: unknown }} />;
-
-    return (
-        parseValueToDisplayValue(val)
-    );
-  };
-
   return (
     <Table className="border">
       {description && <TableCaption>{description}</TableCaption>}
