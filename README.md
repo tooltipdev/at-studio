@@ -121,6 +121,11 @@ Refer to `.env.sample` for a template.
 - Semantic version string of the application
 - Displayed in the UI
 
+### `VITE_GITHUB_LINK`
+
+- URL pointing to project GitHub repository
+- Linked in the UI
+
 # Contribution
 
 Feel free to fork and contribute. PRs will be reviewed.
