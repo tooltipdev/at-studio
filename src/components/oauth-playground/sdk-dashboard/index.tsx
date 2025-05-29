@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -11,6 +10,7 @@ import MethodSelect from './method-select';
 import schemaMap from '@/services/bsky-sdk/lexicon-zod-schemas';
 import SDKForm from '../sdk-form';
 import { OAuthClientContext } from '@/contexts/oauth';
+import BulletList from '../bullet-list';
 
 function SDKDashboard() {
   const { client } = useContext(OAuthClientContext);
@@ -28,11 +28,11 @@ function SDKDashboard() {
             </CardHeader>
             <CardContent className="flex-col">
               {!method && (
-                <ul className="ml-6 list-disc [&>li]:mb-2 text-sm">
+                <BulletList>
                   <li>Select an ATProtocol SDK method</li>
                   <li>Fill out the provided form</li>
                   <li>Submit form to execute SDK method</li>
-                </ul>
+                </BulletList>
               )}
 
               {method && (
