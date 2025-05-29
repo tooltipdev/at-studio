@@ -1,30 +1,24 @@
-function Logo({size: logoSize}: {size?: 'sm' | 'md' | 'lg'}) {
-    let size, padding, fontSize
+function Logo({ size }: { size: 'sm' | 'md' | 'lg' }) {
+  let textSize;
 
-    switch(logoSize) {
-        case 'lg':
-            size = "size-24"
-            padding = 'px-3'
-            fontSize = 'text-4xl'
-            break
-        case 'md':
-            size = 'size-16'
-            padding = 'px-2'
-            fontSize = 'text-3xl'
-            break
-        default:
-            size = 'size-8'
-            padding = 'px-1'
-            fontSize = 'text-xl'
-    }
+  switch (size) {
+    case 'lg':
+      textSize = 'text-3xl';
+      break;
+    case 'md':
+      textSize = 'text-xl';
+      break;
+    default:
+      textSize = 'text-lg';
+  }
 
-    return (<>
-        <div className="flex items-center">
-            <img className={`${size}`} src="bsky-logo.png" />
-            <span className={`${fontSize} ${padding}`}>+</span>
-            <img className={`${size}`} src="oauth-logo.png" />
-        </div>
-    </>)
+  return (
+    <>
+      <p className={`${textSize} tracking-wide font-light`}>
+        <span className="text-[#3b82f6] font-semibold">AT</span>Studio
+      </p>
+    </>
+  );
 }
 
-export default Logo
+export default Logo;
