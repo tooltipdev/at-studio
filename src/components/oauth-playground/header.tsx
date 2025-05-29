@@ -13,6 +13,8 @@ import { Agent } from '@atproto/api';
 import OAuthClient from '@/services/OAuthClient';
 import AboutDialog from './about-dialog';
 
+const { VITE_GITHUB_LINK } = process.env;
+
 function ProfileDropdown({
   profile,
   client,
@@ -55,12 +57,7 @@ function Header({
     <>
       <div className="h-auto p-2 w-screen max-w-[960px] flex items-center">
         <AboutDialog />
-        <Button
-          variant="ghost"
-          onClick={() =>
-            window.open('https://github.com/tooltipdev/bsky-oauth-playground', '_blank')
-          }
-        >
+        <Button variant="ghost" onClick={() => window.open(VITE_GITHUB_LINK, '_blank')}>
           GitHub
         </Button>
         <Badge className="ml-2">v{version}</Badge>
