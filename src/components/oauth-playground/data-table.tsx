@@ -94,7 +94,7 @@ function DataTable({
           ))}
       </TableHeader>
       <TableBody>
-        {Object.entries(flatten(JSON.parse(JSON.stringify(data)), { safe: true }) as { [key: string]: unknown }).map(
+        {Object.entries(flatten(JSON.parse(JSON.stringify(data)), { maxDepth: 3, safe: true }) as { [key: string]: unknown }).map(
           ([k, v], i) => {
             return (
               <TableRow>
