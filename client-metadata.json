@@ -1,10 +1,10 @@
 {
-  "client_name": "OAuth Playground",
-  "client_id": "https://tooltipdev.github.io/bsky-oauth-playground/client-metadata.json",
-  "client_uri": "https://tooltipdev.github.io/bsky-oauth-playground/",
+  "client_name": "@ATStudio",
+  "client_id": "https://tooltipdev.github.io/at-studio/client-metadata.json",
+  "client_uri": "https://tooltipdev.github.io/at-studio/",
   "logo_uri": "https://avatars.githubusercontent.com/u/192393975",
   "redirect_uris": [
-    "https://tooltipdev.github.io/bsky-oauth-playground/"
+    "https://tooltipdev.github.io/at-studio/"
   ],
   "scope": "atproto transition:generic",
   "grant_types": [
