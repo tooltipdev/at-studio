@@ -4,7 +4,7 @@ import ArrayFormField from './array-form-field';
 import InputFormField from './input-form-field';
 import { FormDescription, FormItem, FormLabel } from '../../shadcn/form';
 import ObjectFormField from './object-form-field';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shadcn/tabs';
 import { Badge } from '../../shadcn/badge';
 
 function UnionFormField({

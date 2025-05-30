@@ -1,5 +1,5 @@
 import OAuthClient from "@/services/OAuthClient"
-import { Button } from "@/components/ui/shadcn/button"
+import { Button } from "@/components/shadcn/button"
 
 function AuthButton({ client }: { client?: OAuthClient }) {
     const text = client && client.isAuthenticated

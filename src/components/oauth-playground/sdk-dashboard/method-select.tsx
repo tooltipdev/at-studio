@@ -1,4 +1,4 @@
-import { ComboBox } from "@/components/ui/shadcn/combo-box"
+import { ComboBox } from "@/components/shadcn/combo-box"
 import schemaMap from "@/services/bsky-sdk/lexicon-zod-schemas"
 
 function MethodSelect({onSelect}: {onSelect: (s:string) => void | Promise<void>}) {

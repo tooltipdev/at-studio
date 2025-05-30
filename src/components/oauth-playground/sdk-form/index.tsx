@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { ZodObject, ZodType } from 'zod';
-import { Button } from '@/components/ui/shadcn/button';
-import { Form } from '@/components/ui/shadcn/form';
+import { Button } from '@/components/shadcn/button';
+import { Form } from '@/components/shadcn/form';
 import schemaMap from '@/services/bsky-sdk/lexicon-zod-schemas';
 import OAuthClient from '@/services/OAuthClient';
 import { Agent } from '@atproto/api';
@@ -12,7 +12,7 @@ import { Separator } from '../../shadcn/separator';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { ScrollBar } from '../../shadcn/scroll-area';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/shadcn/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shadcn/tabs';
 
 import ObjectFormField from './object-form-field';
 import SDKMethodProxy from '@/services/bsky-sdk/method-proxy';
@@ -28,7 +28,7 @@ function SDKFormResponse({ res, err }: { res?: any; err?: Error | string | any }
         </ScrollArea>
       )}
       {!err && res && (
-        <Tabs defaultValue="table" className="w-full">
+        <Tabs defaultValue="table" className="max-w-[1140px]">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="table">Table</TabsTrigger>
             <TabsTrigger value="json">JSON</TabsTrigger>
@@ -111,7 +111,9 @@ function SDKForm({
         onSubmit={form.handleSubmit(onSubmit, console.log)}
         className="space-y-8"
       >
-        <ObjectFormField form={form} schema={schema as WrappedZodType<ZodObject<any>>} path="" />
+        <div className="max-w-[500px]">
+          <ObjectFormField form={form} schema={schema as WrappedZodType<ZodObject<any>>} path="" />
+        </div>
         <div className="flex space-x-2">
           <Button variant="outline" onClick={onCancel}>
             Back
