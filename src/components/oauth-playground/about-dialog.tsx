@@ -20,7 +20,7 @@ function AboutDialog() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>About {clientName || 'the app'}</DialogTitle>
-          <DialogDescription>@ATProtocol Utilitly Client</DialogDescription>
+          <br/>
           <p>
             {clientName || 'This application'} provides easy to use interfaces for quickly interacting with the{' '}
             <a className="underline" href="https://atproto.com/">
