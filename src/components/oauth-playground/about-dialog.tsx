@@ -8,8 +8,6 @@ import {
 import { Button } from '../shadcn/button';
 import BulletList from './bullet-list';
 
-const {client_name: clientName} = __OAUTH_CLIENT_METADATA__
-
 function AboutDialog() {
   return (
     <Dialog>
@@ -18,10 +16,10 @@ function AboutDialog() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>About {clientName || 'the app'}</DialogTitle>
+          <DialogTitle>About @ATStudio</DialogTitle>
           <br/>
           <p>
-            {clientName || 'This application'} provides easy to use interfaces for quickly interacting with the{' '}
+            @ATStudio provides easy to use interfaces for quickly interacting with the{' '}
             <a className="underline" href="https://atproto.com/">
               @ATProtocol
             </a>
