@@ -50,7 +50,8 @@ function AboutDialog() {
             <li>Learn about the @ATProtocol</li>
             <li>Test/debug @ATProtocol code paths</li>
           </BulletList>
-          <h1 className="mt-8 scroll-m-20 font-semibold tracking-tight">Limitations</h1>
+          <br/>
+          <h1 className="scroll-m-20 font-semibold tracking-tight">Limitations</h1>
           <p>
             Currently, only the{' '}
             <a className="underline" href="https://docs.bsky.app/docs/advanced-guides/entryway">
@@ -58,7 +59,8 @@ function AboutDialog() {
             </a>{' '}
             is supported, but self custodial PDSes will be supported in the near future.
           </p>
-          <h1 className="mt-8 scroll-m-20 font-semibold tracking-tight">Disclaimer</h1>
+          <br/>
+          <h1 className="scroll-m-20 font-semibold tracking-tight">Disclaimer</h1>
           <p>This is an experimental application. Use at your own risk.</p>
         </DialogHeader>
       </DialogContent>
